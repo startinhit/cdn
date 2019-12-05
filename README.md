@@ -1,6 +1,8 @@
-<h2 id="text-effect" data-text="Nguyễn Tỉnh Blog">
-  Nguyễn Tỉnh Blog
-</h2>
+<center>
+	<h2 id="text-effect" data-text="Nguyễn Tỉnh Blog">
+		Nguyễn Tỉnh Blog
+	</h2>
+</center>
 <style>
   h1{display:none};
   h2#text-effect {
@@ -12,6 +14,7 @@
 	 font-weight: bold;
 	 color: #fff;
 	 -webkit-text-stroke: 2px #fff;
+	border: 0;
 }
  h2#text-effect:before {
 	 content: attr(data-text);
