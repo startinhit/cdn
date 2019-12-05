@@ -1,4 +1,4 @@
-<h2 id="text-effect" data-text="Text">
+<h2 id="text-effect" data-text="Nguyễn Tỉnh Blog">
   Nguyễn Tỉnh Blog
 </h2>
 <style>
