@@ -1,11 +1,11 @@
-<center>
-	<h2 id="text-effect" data-text="Nguyễn Tỉnh Blog">
+<div id="text-effect">
+	<h2 data-text="Nguyễn Tỉnh Blog">
 		Nguyễn Tỉnh Blog
 	</h2>
-</center>
+</div>
 <style>
   h1{display:none};
-  h2#text-effect {
+  #text-effect {
 	 text-transform: uppercase;
 	 letter-spacing: 5px;
 	 position: relative;
@@ -16,7 +16,7 @@
 	 -webkit-text-stroke: 2px #fff;
 	border: 0;
 }
- h2#text-effect:before {
+ #text-effect:before {
 	 content: attr(data-text);
 	 position: absolute;
 	 background: -webkit-gradient(linear, left top, right top, from(#d630f2), color-stop(#ff002f), color-stop(#e4ff00), color-stop(#03a9f4), to(#d630f2));
