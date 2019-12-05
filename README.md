@@ -3,7 +3,7 @@
 </h2>
 <style>
   h1{display:none};
-  #text-effect {
+  h2#text-effect {
 	 text-transform: uppercase;
 	 letter-spacing: 5px;
 	 position: relative;
@@ -13,7 +13,7 @@
 	 color: #fff;
 	 -webkit-text-stroke: 2px #fff;
 }
- #text-effect:before {
+ h2#text-effect:before {
 	 content: attr(data-text);
 	 position: absolute;
 	 background: -webkit-gradient(linear, left top, right top, from(#d630f2), color-stop(#ff002f), color-stop(#e4ff00), color-stop(#03a9f4), to(#d630f2));
