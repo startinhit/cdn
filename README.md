@@ -5,7 +5,7 @@
 </div>
 <style>
   h1{display:none};
-  #text-effect {
+  #text-effect h2{
 	 text-transform: uppercase;
 	 letter-spacing: 5px;
 	 position: relative;
@@ -16,7 +16,7 @@
 	 -webkit-text-stroke: 2px #fff;
 	border: 0;
 }
- #text-effect:before {
+ #text-effect h2:before {
 	 content: attr(data-text);
 	 position: absolute;
 	 background: -webkit-gradient(linear, left top, right top, from(#d630f2), color-stop(#ff002f), color-stop(#e4ff00), color-stop(#03a9f4), to(#d630f2));
