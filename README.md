@@ -5,7 +5,7 @@
 </div>
 <style>
   h1{display:none};
-  #text-effect h2{
+  .markdown-body h2{
 	 text-transform: uppercase;
 	 letter-spacing: 5px;
 	 position: relative;
