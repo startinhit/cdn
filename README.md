@@ -1,19 +1,8 @@
-<span id="text-effect" data-text="Nguyễn Tỉnh Blog">
+<span style="text-transform: uppercase; letter-spacing: 5px; position: relative; font-size: 9em; line-height: normal; font-weight: bold; color: #fff; -webkit-text-stroke: 2px #fff; border: 0;" id="text-effect" data-text="Nguyễn Tỉnh Blog">
 	Nguyễn Tỉnh Blog
 </span>
 <style>
   h1{display:none};
- #text-effect{
-	 text-transform: uppercase;
-	 letter-spacing: 5px;
-	 position: relative;
-	 font-size: 9em;
-	 line-height: normal;
-	 font-weight: bold;
-	 color: #fff;
-	 -webkit-text-stroke: 2px #fff;
-	border: 0;
-}
  #text-effect:before {
 	 content: attr(data-text);
 	 position: absolute;
