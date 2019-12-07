@@ -1,7 +1,7 @@
-<span class="BSW-font-wave-color">Nguyễn Tỉnh Blog</span>
+<span class="color">Nguyễn Tỉnh Blog</span>
 <style>
   h1{display:none};
- .BSW-font-wave-color,h1 {
+ .color,h1 {
     line-height: 42px;
     font-size: 30px;
     text-align: left;
