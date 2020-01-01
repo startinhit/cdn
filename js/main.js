@@ -988,6 +988,7 @@ $(document).ready(function() {
                   break
           }
       });
+      loadCSS('https://cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.6/css/lightgallery.min.css', 'css')
   }
   $(function() {
       $('.index-post .entry-image-link .entry-thumb, .PopularPosts .entry-image-link .entry-thumb, .FeaturedPost .entry-image-link .entry-thumb,.about-author .author-avatar').lazyify();
