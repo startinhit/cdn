@@ -1014,7 +1014,7 @@ $(document).ready(function() {
     }
     $(function() {
         $('.index-post .entry-image-link .entry-thumb, .PopularPosts .entry-image-link .entry-thumb, .FeaturedPost .entry-image-link .entry-thumb,.about-author .author-avatar').lazyify();
-        if (media >= 880) {
+        if (media <= 880) {
             $('.mobile-logo').each(function() {
                 var $t = $(this),
                     $l = $('#main-logo .header-widget a').clone();
@@ -1180,4 +1180,4 @@ $(document).ready(function() {
   });
   // dark mode
   function auto(){document.body.classList.add('auto');if(new Date().getHours()>21||new Date().getHours()<6){document.body.classList.add('dark');localStorage.setItem('227519dark','true')}else{document.body.classList.remove('dark');localStorage.setItem('227519dark','false')}}function dark(){localStorage.getItem('227519dark')=='true'?document.body.classList.add('dark'):document.body.classList.remove('dark')}if(localStorage.getItem('227519auto')=='true'){auto()}else{localStorage.getItem('227519dark')==null?auto():dark()}function toggle(){localStorage.setItem('227519auto',localStorage.getItem('227519auto')=='true'?'false':'true');localStorage.getItem('227519auto')=='true'?auto():document.body.classList.remove('auto')}function mode(){document.body.classList.remove('auto');localStorage.removeItem('227519auto');localStorage.setItem('227519dark',localStorage.getItem('227519dark')=='true'?'false':'true');dark()}
-  
+ 
