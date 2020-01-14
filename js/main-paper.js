@@ -249,11 +249,14 @@ $(document).ready(function() {
             }
             if (type.match('post-style')) {
                 $this.replaceWith('<div id="post-style"></div>')
+
+            }
+            (function() {
                 var e = document.createElement('script');
                 e.src = document.location.protocol + '<script>var postStyle = true</script>';
                 e.async = true;
                 document.getElementById('post-style').appendChild(e);
-            }
+                }());
             if (type.match('left-sidebar')) {
                 $this.replaceWith('<style>.item #main-wrapper{float:right}.item #sidebar-wrapper{float:left}</style>')
             }
