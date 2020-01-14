@@ -248,7 +248,11 @@ $(document).ready(function() {
                 $this.replaceWith('<kbd class="short-b">' + html + '</kbd>')
             }
             if (type.match('post-style')) {
-                $this.replaceWith('<script>var postStyle = true</script>')
+                $this.replaceWith('<div id="post-style"></div>')
+                var e = document.createElement('script');
+                e.src = document.location.protocol + '<script>var postStyle = true</script>';
+                e.async = true;
+                document.getElementById('post-style').appendChild(e);
             }
             if (type.match('left-sidebar')) {
                 $this.replaceWith('<style>.item #main-wrapper{float:right}.item #sidebar-wrapper{float:left}</style>')
