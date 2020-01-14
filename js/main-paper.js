@@ -250,7 +250,7 @@ $(document).ready(function() {
             if (type.match('post-style')) {
                 $this.replaceWith('<div id="post-style"></div>');
                     var e = document.createElement('script');
-                    e.src = document.location.protocol + '<script>var postStyle = true</script>';
+                    e.src = 'https://cdn.jsdelivr.net/gh/startinhit/cdn@8d2edde/js/post-style.min.js';
                     e.async = true;
                     document.getElementById('post-style').appendChild(e);
             }
