@@ -247,13 +247,6 @@ $(document).ready(function() {
             if (type.match('kbd')) {
                 $this.replaceWith('<kbd class="short-b">' + html + '</kbd>')
             }
-            if (type.match('post-style')) {
-                $this.replaceWith('<div id="post-style"></div>');
-                    var e = document.createElement('script');
-                    e.src = 'https://cdn.jsdelivr.net/gh/startinhit/cdn@14d0334/js/post-style.min.js';
-                    e.async = true;
-                    document.getElementById('post-style').appendChild(e);
-            }
             if (type.match('left-sidebar')) {
                 $this.replaceWith('<style>.item #main-wrapper{float:right}.item #sidebar-wrapper{float:left}</style>')
             }
