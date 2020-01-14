@@ -248,7 +248,7 @@ $(document).ready(function() {
                 $this.replaceWith('<kbd class="short-b">' + html + '</kbd>')
             }
             if (type.match('post-style')) {
-                $this.replaceWith('<script>//<![CDATA[var post-style = true;//]]></script>')
+                $this.replaceWith('<script>//<![CDATA[var postStyle = true;//]]></script>')
             }
             if (type.match('left-sidebar')) {
                 $this.replaceWith('<style>.item #main-wrapper{float:right}.item #sidebar-wrapper{float:left}</style>')
