@@ -1150,28 +1150,7 @@ $(document).ready(function() {
     }
     if (data.view.isPost == 'true') {
       // box category
-      var postBody = document.querySelector(".post-body"),
-          titleChapter = postBody.querySelectorAll("h2,h3");
-      if (2 <= titleChapter.length) {
-          var i, leChapteraptor = [];
-          for (i = 0; i < titleChapter.length; i++) anchorChapter = "chapter-" + (i + 1), titleChapter[i].setAttribute("id", anchorChapter), titleChapter[i].setAttribute("title", "Lên đầu trang"), leChapteraptor[i] = "<li data-target=#" + anchorChapter + ">" + titleChapter[i].innerHTML + "</li>";
-          $(".box_category").html('<p>Nội dung chính <label></label></p><ul class="chapter">' + leChapteraptor.join("") + "</ul>")
-      } else $(".box_category").remove();
-      for ($(function() {
-              var t = $(".post-body a[name=more]");
-              t ? $(".box_category").insertAfter(t) : $(".box_category").remove()
-          }), $(".box_category p>label").click(function() {
-              $(this).toggleClass("show"), $(this).parent().parent().find("ul").slideToggle("slow")
-          }), $(".box_category li").bind("click", function() {
-              var t = $(this).attr("data-target");
-              $("html, body").stop().animate({
-                  scrollTop: $(t).offset().top - 70
-              }, "slow")
-          }), k = 0; k < titleChapter.length; k++) titleChapter[k].addEventListener("click", function() {
-          $("html, body").stop().animate({
-              scrollTop: $(".box_category").position().top
-          }, "slow")
-      });
+      var postBody=document.querySelector(".post-body"),titleChapter=postBody.querySelectorAll("h2,h3");if(3<=titleChapter.length){var i,leChapteraptor=[];for(i=0;i<titleChapter.length;i++)anchorChapter="chapter-"+(i+1),titleChapter[i].setAttribute("id",anchorChapter),titleChapter[i].setAttribute("title","Lên đầu trang"),leChapteraptor[i]="<li data-target=#"+anchorChapter+">"+titleChapter[i].innerHTML+"</li>";$(".box_category").html('<p>Nội dung chính <label></label></p><ul class="chapter">'+leChapteraptor.join("")+"</ul>")}else $(".box_category").remove();for($(function(){var t=$(".post-body a[name=more]");t?$(".box_category").insertAfter(t):$(".box_category").remove()}),$(".box_category p>label").click(function(){$(this).toggleClass("show"),$(this).parent().parent().find("ul").slideToggle("slow")}),$(".box_category li").bind("click",function(){var t=$(this).attr("data-target");$("html, body").stop().animate({scrollTop:$(t).offset().top-70},"slow")}),k=0;k<titleChapter.length;k++)titleChapter[k].addEventListener("click",function(){$("html, body").stop().animate({scrollTop:$(".box_category").position().top},"slow")});
       // get title posts
       $('.post-nav')['each'](function() {
           var getLinkOlderPost = $('a.blog-pager-older-link')['attr']('href'),
