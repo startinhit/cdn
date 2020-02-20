@@ -1086,7 +1086,7 @@ $(document).ready(function() {
                 }
             });
         }
-        if(turnOnAdblock == true && media >= 880){
+        if(media >= 880){
 var showImageAdBlocker = 0;
 function cancelAdBlocker() {
     document.getElementById("wrapperBlocker").remove();
