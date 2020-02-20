@@ -1086,51 +1086,6 @@ $(document).ready(function() {
                 }
             });
         }
-        if(media >= 880){
-var showImageAdBlocker = 0;
-function cancelAdBlocker() {
-    document.getElementById("wrapperBlocker").remove();
-}
-function showImage() {
-    if (showImageAdBlocker == 0) {
-        document.getElementById("imageGuide").style.display = 'block';
-        document.getElementById("wrapperBlockerStep1").style.display = 'none';
-        document.getElementById("wrapperBlockerStep2").style.display = 'block';
-        showImageAdBlocker = 1;
-    } else {
-        window.location.reload();
-    }
-}
-document.addEventListener('DOMContentLoaded', function() {
-    if(document.getElementById("wrapfabber").clientHeight <= 0){
-
-        var body = document.body;
-        var wrapperNoFlash = '<div id="wrapperBlocker" style="width:100%;height:100%;position: absolute;top: 0;font-family: Lato,sans-serif;overflow:auto;">\
-            <div style="width: 100%;height: 100%;position: fixed;top: 0;left: 0;background: #000;z-index: 999;opacity: 0.8;"></div>\
-            <div id="wrapperBlockerStep1" style="-webkit-box-sizing: border-box;box-sizing: border-box;width: 650px;margin: 0 auto;text-align: center;z-index: 9999;background-color: #fff;padding: 30px;position: relative;margin-top: 78px;margin-bottom: 78px;border-radius: 10px;color: #000;padding-bottom: 40px;overflow:auto;">\
-                <img src="https://4.bp.blogspot.com/-gXZslqQcBUc/W2vvJr_PbmI/AAAAAAAAF4E/Mjn-M5lNYEAC79qSF9mhousBIHKkEQYXACLcBGAs/s320/eye_iris-tips.png" />\
-                <h2 style="margin:0;padding:0;line-height: 50px;">Phát hiện AdBlocker</h2>\
-                <p style="margin:0;font-size: 16px;line-height: 35px;">Chào bạn! Chúng tôi phát hiện rằng bạn đang sử dụng trình chặn quảng cáo.</p>\
-                <p style="margin:0;font-size: 16px;line-height: 35px;">Iris Tips vẫn đang từng ngày chia sẻ các thủ thuật hoàn toàn miễn phí đến bạn.</p>\
-                <p style="margin:0;font-size: 16px;line-height: 35px;margin-bottom: 35px;">Thích Iris Tips? Vui lòng cho Iris Tips vào whilelist trong trình chặn quảng cáo nhé ^_^</p>\
-                <span ga-on="click" ga-event-action="click" ga-event-category="adblocker" ga-event-label="step1Cancel" onclick="cancelAdBlocker();" style="display:none;cursor: pointer;text-transform: uppercase;padding: 13px;color: #000;margin-right: 20px;" href="javascript:void(0)">Cancel</span>\
-                <span ga-on="click" ga-event-action="click" ga-event-category="adblocker" ga-event-label="step1Yes" onclick="showImage()" style="cursor: pointer;text-transform: uppercase;padding: 13px;color: #000;background: #00fff2;border-radius: 4px;margin-left: 20px;" href="javascript:void(0)">Ok, mình sẽ whitelist Iris Tips</span>\
-            </div>\
-            <div id="wrapperBlockerStep2" style="display:none;-webkit-box-sizing: border-box;box-sizing: border-box;width: 650px;margin: 0 auto;z-index: 9999;background-color: #fff;padding: 30px;position: relative;margin-top: 78px;margin-bottom: 78px;border-radius: 10px;color: #000;padding-bottom: 40px;overflow:auto;height:500px">\
-                <h2 style="margin:0;padding:0;line-height: 50px;text-align: center;">Whitelist bằng cách nào?</h2>\
-                <p style="margin:0;font-size: 16px;line-height: 35px;margin-bottom: 5px;">Click vào icon của trình chặn quảng cáo AdBlock trên thanh menu.</p>\
-                <p style="margin:0;font-size: 16px;line-height: 25px;">Đối với AdBlock: Chọn \'<b>Don\'t run on pages on this domain</b>\' để vô hiệu hóa Ad-Blocker trên Iris Tips</p>\
-                <p style="margin:0;font-size: 16px;line-height: 25px;">Đối với Adblock Plus: Click chọn \'<b>Enabled on this site</b>\' để vô hiệu hóa Ad-Blocker trên Iris Tips</p>\
-                <p style="margin:0;font-size: 16px;line-height: 35px;margin-bottom: 35px;margin-top: 5px;">Xong rồi đấy. Sau khi bạn đã whitelist Iris Tips, click vào nút \'Done\' nhé!</p>\
-                <img id="imageGuide" style="margin: 0 auto;margin-bottom: 35px;margin-top: -15px;" src="https://4.bp.blogspot.com/-Amv1PcQ73Wc/W2vvJk8rltI/AAAAAAAAF4A/T33VsOyXyUMeEKOjs17GsuprzLFnU-FwACLcBGAs/s320/qc_iris-tips.png" />\
-                <div style="text-align: center;"><span ga-on="click" ga-event-action="click" ga-event-category="adblocker" ga-event-label="step2Yes" onclick="showImage()" style="cursor: pointer;text-transform: uppercase;padding: 13px;color: #000;background: #00fff2;border-radius: 4px;margin-left: 20px;" href="javascript:void(0)">Done! ^_^</span></div>\
-            </div>\
-        </div>';
-body.insertAdjacentHTML('beforeend', wrapperNoFlash);
-document.body.style.overflow="hidden";
-    }
-});
-  }
         if (media >= 540) {
             jQuery(document).ready(function() {
                     jQuery(window).scroll(function() {
