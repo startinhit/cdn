@@ -1178,51 +1178,7 @@ $(document).ready(function() {
       // lazy load
       !function(e){e.fn.lazyload=function(t){var o={threshold:0,failurelimit:0,event:"scroll",effect:"show",container:window};t&&e.extend(o,t);var n=this;return"scroll"==o.event&&e(o.container).bind("scroll",function(t){var i=0;n.each(function(){if(e.abovethetop(this,o)||e.leftofbegin(this,o));else if(e.belowthefold(this,o)||e.rightoffold(this,o)){if(i++>o.failurelimit)return!1}else e(this).trigger("appear")});var r=e.grep(n,function(e){return!e.loaded});n=e(r)}),this.each(function(){var t=this;null==e(t).attr("original")&&e(t).attr("original",e(t).attr("src")),"scroll"!=o.event||null==e(t).attr("src")||o.placeholder==e(t).attr("src")||e.abovethetop(t,o)||e.leftofbegin(t,o)||e.belowthefold(t,o)||e.rightoffold(t,o)?(o.placeholder?e(t).attr("src",o.placeholder):e(t).removeAttr("src"),t.loaded=!1):t.loaded=!0,e(t).one("appear",function(){this.loaded||e("<img />").bind("load",function(){e(t).hide().attr("src",e(t).attr("original"))[o.effect](o.effectspeed),t.loaded=!0}).attr("src",e(t).attr("original"))}),"scroll"!=o.event&&e(t).bind(o.event,function(o){t.loaded||e(t).trigger("appear")})}),e(o.container).trigger(o.event),this},e.belowthefold=function(t,o){if(void 0===o.container||o.container===window)var n=e(window).height()+e(window).scrollTop();else n=e(o.container).offset().top+e(o.container).height();return n<=e(t).offset().top-o.threshold},e.rightoffold=function(t,o){if(void 0===o.container||o.container===window)var n=e(window).width()+e(window).scrollLeft();else n=e(o.container).offset().left+e(o.container).width();return n<=e(t).offset().left-o.threshold},e.abovethetop=function(t,o){if(void 0===o.container||o.container===window)var n=e(window).scrollTop();else n=e(o.container).offset().top;return n>=e(t).offset().top+o.threshold+e(t).height()},e.leftofbegin=function(t,o){if(void 0===o.container||o.container===window)var n=e(window).scrollLeft();else n=e(o.container).offset().left;return n>=e(t).offset().left+o.threshold+e(t).width()},e.extend(e.expr[":"],{"below-the-fold":"$.belowthefold(a, {threshold : 0, container: window})","above-the-fold":"!$.belowthefold(a, {threshold : 0, container: window})","right-of-fold":"$.rightoffold(a, {threshold : 0, container: window})","left-of-fold":"!$.rightoffold(a, {threshold : 0, container: window})"})}(jQuery),$(function(){$(".separator img,.tr-caption-container img").lazyload({placeholder:"//1.bp.blogspot.com/-Qg5bi1ZtDdM/VZ5nHAyYBqI/AAAAAAAAChE/exGnasO4oyk/s640/arlinadesign.gif",effect:"fadeIn",threshold:"-50"})});
     }
-if(turnOnAdblock == true && media >= 680){
-    var showImageAdBlocker = 0;
-    function cancelAdBlocker() {
-        document.getElementById("wrapperBlocker").remove();
-    }
-    function showImage() {
-        if (showImageAdBlocker == 0) {
-            document.getElementById("imageGuide").style.display = 'block';
-            document.getElementById("wrapperBlockerStep1").style.display = 'none';
-            document.getElementById("wrapperBlockerStep2").style.display = 'block';
-            showImageAdBlocker = 1;
-        } else {
-            window.location.reload();
-        }
-    }
-    document.addEventListener('DOMContentLoaded', function() {
-        if(document.getElementById("wrapfabber").clientHeight <= 0){
-            var body = document.body;
-            var wrapperNoFlash = '<div id="wrapperBlocker" style="width:100%;height:100%;position: absolute;top: 0;font-family: Lato,sans-serif;overflow:auto;">\
-                <div style="width: 100%;height: 100%;position: fixed;top: 0;left: 0;background: #000;z-index: 999;opacity: 0.8;"></div>\
-                <div id="wrapperBlockerStep1" style="-webkit-box-sizing: border-box;box-sizing: border-box;width: 650px;margin: 0 auto;text-align: center;z-index: 9999;background-color: #fff;padding: 30px;position: relative;margin-top: 78px;margin-bottom: 78px;border-radius: 10px;color: #000;padding-bottom: 40px;overflow:auto;">\
-                    <img src="https://4.bp.blogspot.com/-gXZslqQcBUc/W2vvJr_PbmI/AAAAAAAAF4E/Mjn-M5lNYEAC79qSF9mhousBIHKkEQYXACLcBGAs/s320/eye_iris-tips.png" />\
-                    <h2 style="margin:0;padding:0;line-height: 50px;">Phát hiện AdBlocker</h2>\
-                    <p style="margin:0;font-size: 16px;line-height: 35px;">Chào bạn! Chúng tôi phát hiện rằng bạn đang sử dụng trình chặn quảng cáo.</p>\
-                    <p style="margin:0;font-size: 16px;line-height: 35px;">Star Tỉnh IT vẫn đang từng ngày chia sẻ các thủ thuật hoàn toàn miễn phí đến bạn.</p>\
-                    <p style="margin:0;font-size: 16px;line-height: 35px;margin-bottom: 35px;">Thích Star Tỉnh IT? Vui lòng cho Star Tỉnh IT vào whilelist trong trình chặn quảng cáo nhé ^_^</p>\
-                    <span ga-on="click" ga-event-action="click" ga-event-category="adblocker" ga-event-label="step1Cancel" onclick="cancelAdBlocker();" style="display:none;cursor: pointer;text-transform: uppercase;padding: 13px;color: #000;margin-right: 20px;" href="javascript:void(0)">Cancel</span>\
-                    <span ga-on="click" ga-event-action="click" ga-event-category="adblocker" ga-event-label="step1Yes" onclick="showImage()" style="cursor: pointer;text-transform: uppercase;padding: 13px;color: #000;background: #00fff2;border-radius: 4px;margin-left: 20px;" href="javascript:void(0)">Ok, mình sẽ whitelist Star Tỉnh IT</span>\
-                </div>\
-                <div id="wrapperBlockerStep2" style="display:none;-webkit-box-sizing: border-box;box-sizing: border-box;width: 650px;margin: 0 auto;z-index: 9999;background-color: #fff;padding: 30px;position: relative;margin-top: 78px;margin-bottom: 78px;border-radius: 10px;color: #000;padding-bottom: 40px;overflow:auto;height:500px">\
-                    <h2 style="margin:0;padding:0;line-height: 50px;text-align: center;">Whitelist bằng cách nào?</h2>\
-                    <p style="margin:0;font-size: 16px;line-height: 35px;margin-bottom: 5px;">Click vào icon của trình chặn quảng cáo AdBlock trên thanh menu.</p>\
-                    <p style="margin:0;font-size: 16px;line-height: 25px;">Đối với AdBlock: Chọn \'<b>Don\'t run on pages on this domain</b>\' để vô hiệu hóa Ad-Blocker trên Star Tỉnh IT</p>\
-                    <p style="margin:0;font-size: 16px;line-height: 25px;">Đối với Adblock Plus: Click chọn \'<b>Enabled on this site</b>\' để vô hiệu hóa Ad-Blocker trên Star Tỉnh IT</p>\
-                    <p style="margin:0;font-size: 16px;line-height: 35px;margin-bottom: 35px;margin-top: 5px;">Xong rồi đấy. Sau khi bạn đã whitelist Star Tỉnh IT, click vào nút \'Done\' nhé!</p>\
-                    <img id="imageGuide" style="margin: 0 auto;margin-bottom: 35px;margin-top: -15px;" src="https://4.bp.blogspot.com/-Amv1PcQ73Wc/W2vvJk8rltI/AAAAAAAAF4A/T33VsOyXyUMeEKOjs17GsuprzLFnU-FwACLcBGAs/s320/qc_iris-tips.png" />\
-                    <div style="text-align: center;"><span ga-on="click" ga-event-action="click" ga-event-category="adblocker" ga-event-label="step2Yes" onclick="showImage()" style="cursor: pointer;text-transform: uppercase;padding: 13px;color: #000;background: #00fff2;border-radius: 4px;margin-left: 20px;" href="javascript:void(0)">Done! ^_^</span></div>\
-                </div>\
-            </div>';
-    body.insertAdjacentHTML('beforeend', wrapperNoFlash);
-    document.body.style.overflow="hidden";
-        }
-    });
-}
-})
+    })
 });
 // dark mode
 function auto(){document.body.classList.add('auto');if(new Date().getHours()>21||new Date().getHours()<6){document.body.classList.add('dark');localStorage.setItem('227519dark','true')}else{document.body.classList.remove('dark');localStorage.setItem('227519dark','false')}}function dark(){localStorage.getItem('227519dark')=='true'?document.body.classList.add('dark'):document.body.classList.remove('dark')}if(localStorage.getItem('227519auto')=='true'){auto()}else{localStorage.getItem('227519dark')==null?auto():dark()}function toggle(){localStorage.setItem('227519auto',localStorage.getItem('227519auto')=='true'?'false':'true');localStorage.getItem('227519auto')=='true'?auto():document.body.classList.remove('auto')}function mode(){document.body.classList.remove('auto');localStorage.removeItem('227519auto');localStorage.setItem('227519dark',localStorage.getItem('227519dark')=='true'?'false':'true');dark()};
