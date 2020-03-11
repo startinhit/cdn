@@ -1225,3 +1225,18 @@ if(turnOnAdblock == true && data.view.isMobileRequest != 'true'){
 }
 // dark mode
 function auto(){document.body.classList.add('auto');if(new Date().getHours()>21||new Date().getHours()<6){document.body.classList.add('dark');localStorage.setItem('227519dark','true')}else{document.body.classList.remove('dark');localStorage.setItem('227519dark','false')}}function dark(){localStorage.getItem('227519dark')=='true'?document.body.classList.add('dark'):document.body.classList.remove('dark')}if(localStorage.getItem('227519auto')=='true'){auto()}else{localStorage.getItem('227519dark')==null?auto():dark()}function toggle(){localStorage.setItem('227519auto',localStorage.getItem('227519auto')=='true'?'false':'true');localStorage.getItem('227519auto')=='true'?auto():document.body.classList.remove('auto')}function mode(){document.body.classList.remove('auto');localStorage.removeItem('227519auto');localStorage.setItem('227519dark',localStorage.getItem('227519dark')=='true'?'false':'true');dark()};
+// loading page
+$(function() {
+    $('a[href*="#"]:not([href="#"])').click(function() {
+        if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
+            var target = $(this.hash);
+            target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+            if (target.length) {
+                $('html, body').animate({
+                    scrollTop: target.offset().top
+                }, 500);
+                return false;
+            }
+        }
+    });
+});
