@@ -188,23 +188,11 @@ $(document).ready(function() {
             if (type.match('code-scss')) {
                 $this.replaceWith('<pre class="scss short-b">' + html + '</pre>')
             }
-            if (type.match('colorbox-success')) {
-                $this.replaceWith('<div class="colorbox colorbox-success short-b">' + html + '</div>')
-            }
-            if (type.match('colorbox-info')) {
-                $this.replaceWith('<div class="colorbox colorbox-info short-b">' + html + '</div>')
-            }
-            if (type.match('colorbox-warning')) {
-                $this.replaceWith('<div class="colorbox colorbox-warning short-b">' + html + '</div>')
-            }
-            if (type.match('colorbox-danger')) {
-                $this.replaceWith('<div class="colorbox colorbox-danger short-b">' + html + '</div>')
-            }
             var $sb = $('.post-body .short-b').find('b');
             $sb.each(function() {
                 var $b = $(this),
                     $t = $b.text().trim();
-                if ($t.match('code-css') || $t.match('code-js') || $t.match('code-xml') || $t.match('code-php') || $t.match('code-scss') || $t.match('colorbox-success') || $t.match('colorbox-info') || $t.match('colorbox-warning') || $t.match('colorbox-danger')) {
+                if ($t.match('code-css') || $t.match('code-js') || $t.match('code-xml') || $t.match('code-php') || $t.match('code-scss')) {
                     $b.replaceWith("")
                 }
             })
@@ -216,6 +204,18 @@ $(document).ready(function() {
             if (type.match('contact-form')) {
                 $this.replaceWith('<div class="contact-form"/>');
                 $('.contact-form').append($('#ContactForm1'))
+            }
+            if (type.match('colorbox-success')) {
+                $this.replaceWith('<div class="colorbox colorbox-success short-b">' + html + '</div>')
+            }
+            if (type.match('colorbox-info')) {
+                $this.replaceWith('<div class="colorbox colorbox-info short-b">' + html + '</div>')
+            }
+            if (type.match('colorbox-warning')) {
+                $this.replaceWith('<div class="colorbox colorbox-warning short-b">' + html + '</div>')
+            }
+            if (type.match('colorbox-danger')) {
+                $this.replaceWith('<div class="colorbox colorbox-danger short-b">' + html + '</div>')
             }
             if (type.match('alert-success')) {
                 $this.replaceWith('<div class="alert-message alert-success short-b">' + html + '</div>')
@@ -260,7 +260,7 @@ $(document).ready(function() {
             $sb.each(function() {
                 var $b = $(this),
                     $t = $b.text().trim();
-                if ($t.match('alert-success') || $t.match('alert-info') || $t.match('alert-warning') || $t.match('alert-danger') || $t.match('callout-success') || $t.match('callout-info') || $t.match('callout-warning') || $t.match('callout-danger') || $t.match('code') || $t.match('kbd')) {
+                if ($t.match('colorbox-success') || $t.match('colorbox-info') || $t.match('colorbox-warning') || $t.match('colorbox-danger') || $t.match('alert-success') || $t.match('alert-info') || $t.match('alert-warning') || $t.match('alert-danger') || $t.match('callout-success') || $t.match('callout-info') || $t.match('callout-warning') || $t.match('callout-danger') || $t.match('code') || $t.match('kbd')) {
                     $b.replaceWith("")
                 }
             })
