@@ -423,7 +423,7 @@ $(document).ready(function() {
     }
   
     function beforeLoader() {
-        return '<div class="loader"/>'
+        return '<div class="spinner"/>'
     }
   
     function getFeedUrl(type, num, label) {
