@@ -49,11 +49,14 @@ $('#sidebar-tabs').tabify();
 $('.post-body strike').each(function() {
     var $t = $(this),
         $mtc = $t.text().trim();
-    if ($mtc == '$ads={1}') {
+    if ($mtc == '$ads1') {
         $t.replaceWith('<div id="android-mod-new-before-ad"/>')
     }
-    if ($mtc == '$ads={2}') {
+    if ($mtc == '$ads2') {
         $t.replaceWith('<div id="android-mod-new-after-ad"/>')
+    }
+    if ($mtc == '$get-download') {
+        $t.replaceWith('<a href="#download" rel="nofollow" class="button download">download</a>')
     }
     if ($mtc == '$download') {
         $t.replaceWith('<a name="download"></a>')
