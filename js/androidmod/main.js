@@ -55,6 +55,9 @@ $('.post-body strike').each(function() {
     if ($mtc == '$ads={2}') {
         $t.replaceWith('<div id="android-mod-new-after-ad"/>')
     }
+    if ($mtc == '$download') {
+        $t.replaceWith('<a name="download"></a>')
+    }
 });
 $('#android-mod-new-before-ad').each(function() {
     var $t = $(this);
