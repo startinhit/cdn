@@ -182,11 +182,14 @@ $('.post-body strike').each(function() {
     if (type.match('full-width')) {
         $this.replaceWith('<style>.item #main-wrapper{width:100%}.item #sidebar-wrapper{display:none}</style>')
     }
+    if (type.match('copyright')) {
+        $this.replaceWith('<div class="copyright short-b"><a href="'+ html +'" rel="nofollow" target="_blank">Nguồn: '+ html +'</a></div>')
+    }
     var $sb = $('.post-body .short-b').find('b');
     $sb.each(function() {
         var $b = $(this),
             $t = $b.text().trim();
-        if ($t.match('alert-success') || $t.match('alert-info') || $t.match('alert-warning') || $t.match('alert-danger') || $t.match('callout-success') || $t.match('callout-info') || $t.match('callout-warning') || $t.match('callout-danger') || $t.match('code') || $t.match('kbd')) {
+        if ($t.match('alert-success') || $t.match('alert-info') || $t.match('alert-warning') || $t.match('alert-danger') || $t.match('callout-success') || $t.match('callout-info') || $t.match('callout-warning') || $t.match('callout-danger') || $t.match('code') || $t.match('kbd') || $t.match('copyright')) {
             $b.replaceWith("")
         }
     })
