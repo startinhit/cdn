@@ -183,7 +183,7 @@ $('.post-body strike').each(function() {
         $this.replaceWith('<style>.item #main-wrapper{width:100%}.item #sidebar-wrapper{display:none}</style>')
     }
     if (type.match('copyright')) {
-        $this.replaceWith('<div class="copyright short-b"><span>Source: <span><a href="'+ html +'" rel="nofollow" target="_blank">'+ html +'</a></div>')
+        $this.replaceWith('<div class="copyright short-b"><span>Source: </span><a href="'+ html +'" rel="nofollow" target="_blank">'+ html +'</a></div>')
     }
     var $sb = $('.post-body .short-b').find('b');
     $sb.each(function() {
