@@ -59,7 +59,7 @@ $('.post-body strike').each(function() {
         $t.replaceWith('<a href="#download" rel="nofollow" class="button download">download</a>')
     }
     if ($mtc == '$download') {
-        $t.replaceWith('<a name="download"></a><div class="title-download">Download File Apk</div>')
+        $t.replaceWith('<a name="download"></a><div class="title-download">Download File</div>')
     }
 });
 $('#android-mod-new-before-ad').each(function() {
