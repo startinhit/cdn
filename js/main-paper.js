@@ -21,6 +21,9 @@ var Shortcode=function(e,t){e&&(this.el=e,this.tags=t,this.matches=[],this.regex
 /*! jQuery replaceText by "Cowboy" Ben Alman | v1.1.0 - http://benalman.com/projects/jquery-replacetext-plugin/ */
 (function($){$.fn.replaceText=function(b,a,c){return this.each(function(){var f=this.firstChild,g,e,d=[];if(f){do{if(f.nodeType===3){g=f.nodeValue;e=g.replace(b,a);if(e!==g){if(!c&&/</.test(e)){$(f).before(e);d.push(f)}else{f.nodeValue=e}}}}while(f=f.nextSibling)}d.length&&$(d).remove()})}})(jQuery);
 
+/*! dark mode */
+function auto(){document.body.classList.add('auto');if(new Date().getHours()>21||new Date().getHours()<6){document.body.classList.add('dark');localStorage.setItem('636724dark','true')}else{document.body.classList.remove('dark');localStorage.setItem('636724dark','false')}}function dark(){localStorage.getItem('636724dark')=='true'?document.body.classList.add('dark'):document.body.classList.remove('dark')}if(localStorage.getItem('636724auto')=='true'){auto()}else{localStorage.getItem('636724dark')==null?auto():dark()}function toggle(){localStorage.setItem('636724auto',localStorage.getItem('636724auto')=='true'?'false':'true');localStorage.getItem('636724auto')=='true'?auto():document.body.classList.remove('auto')}function mode(){document.body.classList.remove('auto');localStorage.removeItem('636724auto');localStorage.setItem('636724dark',localStorage.getItem('636724dark')=='true'?'false':'true');dark()}
+
 ! function(a) {
 a.fn.lazyify = function() {
     return this.each(function() {
