@@ -1,7 +1,7 @@
 /*!-----------------------------------------------
 *   Name: Startinhit Newspaper Premium Version For Blogspot
-*   Version: 1.8.0
-*   Last Updated: 01/01/2020
+*   Version: 1.9.0
+*   Last Updated: 22/03/2020
 *   Author Name: Nguyễn Tỉnh
 *   Author URI: https://admin.nguyentinhblog.com
 *   Website: https://www.nguyentinhblog.com
