@@ -1080,7 +1080,7 @@ if(data.view.isPost == "true"){
 /*! description */
 var content = document.getElementById('descriptions-cont');
 $(content).css("max-height", "150px");
-$(".descriptions-title p").click(function() {
+$(".descriptions-title span").click(function() {
     $(".descriptions-title,.mask-descriptions").toggleClass("hidden");
     if (content.style.maxHeight == '150px') {
         content.style.maxHeight = content.scrollHeight + 'px'
