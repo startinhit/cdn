@@ -204,11 +204,14 @@ $('.post-body blockquote').each(function() {
     if (type.match('colorbox-danger')) {
         $this.replaceWith('<div class="colorbox colorbox-danger short-b">' + html + '</div>')
     }
+    if (type.match('descriptions')) {
+        $this.replaceWith('<div id="descriptions"> <div class="descriptions-item1"> <div class="descriptions-cont short-b" id="descriptions-cont">'+ html +'</div><div class="mask-descriptions"></div></div><div class="descriptions-item2"> <div class="descriptions-title"><span>Đọc thêm</span></div><div class="descriptions-title hidden"><span>Thu gọn</span></div></div></div>')
+    }
     var $sb = $('.post-body .short-b').find('b');
     $sb.each(function() {
         var $b = $(this),
             $t = $b.text().trim();
-        if ($t.match('colorbox-success') || $t.match('colorbox-info') || $t.match('colorbox-warning') || $t.match('colorbox-danger')) {
+        if ($t.match('colorbox-success') || $t.match('colorbox-info') || $t.match('colorbox-warning') || $t.match('colorbox-danger') || $t.match('descriptions')) {
             $b.replaceWith("")
         }
     })
@@ -1074,6 +1077,18 @@ var uri;if((uri=window.location.toString()).indexOf("%3D","%3D")>0){var clean_ur
 }
 
 if(data.view.isPost == "true"){
+/*! description */
+var content = document.getElementById('descriptions-cont');
+$(content).css("max-height", "150px");
+$(".descriptions-title span").click(function() {
+    $(".descriptions-title,.mask-descriptions").toggleClass("hidden");
+    if (content.style.maxHeight == '150px') {
+        content.style.maxHeight = content.scrollHeight + 'px'
+    } else {
+        content.style.maxHeight = '150px'
+    }
+});
+
 /*! box category */
 var postBody=document.querySelector(".post-body"),titleChapter=postBody.querySelectorAll("h2");if(3<=titleChapter.length){var i,leChapteraptor=[];for(i=0;i<titleChapter.length;i++)anchorChapter="chapter-"+(i+1),titleChapter[i].setAttribute("id",anchorChapter),titleChapter[i].setAttribute("title","Lên đầu trang"),leChapteraptor[i]="<li data-target=#"+anchorChapter+">"+titleChapter[i].innerHTML+"</li>";$(".box_category").html('<div class="category-title"><p>Nội dung chính</p></div><ul class="chapter">'+leChapteraptor.join("")+"</ul>")}else $(".box_category").remove();for($(function(){var t=$(".post-body a[name=more]");t?$(".box_category").insertAfter(t):$(".box_category").remove()}),$(".box_category p").click(function(){$(this).toggleClass("show"),$(this).parent().parent().find("ul").slideToggle("slow")}),$(".box_category li").bind("click",function(){var t=$(this).attr("data-target");$("html, body").stop().animate({scrollTop:$(t).offset().top-70},"slow")}),k=0;k<titleChapter.length;k++)titleChapter[k].addEventListener("click",function(){$("html, body").stop().animate({scrollTop:$(".box_category").position().top},"slow")});
 
