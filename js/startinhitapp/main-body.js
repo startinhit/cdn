@@ -233,7 +233,7 @@ $('.post-body blockquote').each(function() {
         autoplayHoverPause: true,
         autoHeight:true,
         lazyLoad:true,
-        stagePadding: 50,
+        stagePadding: 30,
         responsiveClass:true,
         responsive:{
             0:{
