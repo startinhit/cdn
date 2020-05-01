@@ -214,27 +214,6 @@ $('.post-body blockquote').each(function() {
     }
     if (type.match('slider-img')) {
         $this.replaceWith('<div class="slider-img short-b">'+ html +'</div>');
-        var owl = $('.slider-img');
-        owl.owlCarousel({
-            items: 2,
-            loop: true,
-            margin: 10,
-            autoplay: true,
-            autoplayTimeout: 3000,
-            autoplayHoverPause: true,
-            autoHeight:true,
-            lazyLoad:true,
-            stagePadding: 50,
-            responsiveClass:true,
-            responsive:{
-                0:{
-                    items:1,
-                },
-                681:{
-                    items:2,
-                }
-            }
-        });
     }
     var $sb = $('.post-body .short-b').find('b');
     $sb.each(function() {
@@ -244,6 +223,27 @@ $('.post-body blockquote').each(function() {
             $b.replaceWith("")
         }
     })
+    var owl = $('.slider-img');
+    owl.owlCarousel({
+        items: 2,
+        loop: true,
+        margin: 10,
+        autoplay: true,
+        autoplayTimeout: 3000,
+        autoplayHoverPause: true,
+        autoHeight:true,
+        lazyLoad:true,
+        stagePadding: 50,
+        responsiveClass:true,
+        responsive:{
+            0:{
+                items:1,
+            },
+            681:{
+                items:2,
+            }
+        }
+    });
 });
 $('.post-body strike').each(function() {
     var $this = $(this),
