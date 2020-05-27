@@ -1,11 +1,13 @@
 /*!-----------------------------------------------
 *   Name: Template Blogspot Startinhit App Premium Version
-*   Version: 1.1.0
-*   Last Updated: 01/05/2020
+*   Version: 1.1.1
+*   Last Updated: 27/05/2020
 *   Author Name: Nguyễn Tỉnh
 *   Author URI: https://admin.nguyentinhblog.com
 *   Website: https://www.nguyentinhblog.com
 -----------------------------
+-   Version 1.1.1 - 27/05/2020
++   Fix some bugs and add post shortcodes
 -   Version 1.1.0 - 01/05/2020
 +   Add slider automatically for images in posts
 -   Version 1.0.0 - 25/04/2020
@@ -27,7 +29,7 @@ var Shortcode=function(el,tags){if(!el){return}this.el=el;this.tags=tags;this.ma
 (function($){$.fn.replaceText=function(b,a,c){return this.each(function(){var f=this.firstChild,g,e,d=[];if(f){do{if(f.nodeType===3){g=f.nodeValue;e=g.replace(b,a);if(e!==g){if(!c&&/</.test(e)){$(f).before(e);d.push(f)}else{f.nodeValue=e}}}}while(f=f.nextSibling)}d.length&&$(d).remove()})}})(jQuery);
 
 /*! dark mode */
-function auto(){document.body.classList.add('auto');if(new Date().getHours()>21||new Date().getHours()<6){document.body.classList.add('dark');localStorage.setItem('636724dark','true')}else{document.body.classList.remove('dark');localStorage.setItem('636724dark','false')}}function dark(){localStorage.getItem('636724dark')=='true'?document.body.classList.add('dark'):document.body.classList.remove('dark')}if(localStorage.getItem('636724auto')=='true'){auto()}else{localStorage.getItem('636724dark')==null?auto():dark()}function toggle(){localStorage.setItem('636724auto',localStorage.getItem('636724auto')=='true'?'false':'true');localStorage.getItem('636724auto')=='true'?auto():document.body.classList.remove('auto')}function mode(){document.body.classList.remove('auto');localStorage.removeItem('636724auto');localStorage.setItem('636724dark',localStorage.getItem('636724dark')=='true'?'false':'true');dark()};
+function auto(){document.body.classList.add('auto');if(new Date().getHours()>20||new Date().getHours()<6){document.body.classList.add('dark');localStorage.setItem('661739dark','true')}else{document.body.classList.remove('dark');localStorage.setItem('661739dark','false')}}function dark(){localStorage.getItem('661739dark')=='true'?document.body.classList.add('dark'):document.body.classList.remove('dark')}if(localStorage.getItem('661739auto')=='true'){auto()}else{localStorage.getItem('661739dark')==null?auto():dark()}function toggle(){localStorage.setItem('661739auto',localStorage.getItem('661739auto')=='true'?'false':'true');localStorage.getItem('661739auto')=='true'?auto():document.body.classList.remove('auto')}function mode(){document.body.classList.remove('auto');localStorage.removeItem('661739auto');localStorage.setItem('661739dark',localStorage.getItem('661739dark')=='true'?'false':'true');dark()}
 
 ! function(a) {
     a.fn.lazyify = function() {
@@ -45,8 +47,7 @@ function auto(){document.body.classList.add('auto');if(new Date().getHours()>21|
             } else {
                 img = dImg
             }
-            a(window).on('resize scroll', lazyOnScroll);
-
+          a(window).on('resize scroll',lazyOnScroll);
             function lazyOnScroll() {
                 var wHeight = a(window).height(),
                     scrTop = a(window).scrollTop(),
@@ -58,7 +59,7 @@ function auto(){document.body.classList.add('auto');if(new Date().getHours()>21|
                     }, n.src = img
                 }
             }
-            lazyOnScroll()
+          	lazyOnScroll();
         })
     }
 }(jQuery);
@@ -89,7 +90,14 @@ $('.post-body strike').each(function() {
         $t.replaceWith('<div id="new-before-ad"/><a href="#download" rel="nofollow" class="button download">Download</a>')
     }
     if ($mtc == '$download') {
-        $t.replaceWith('<a name="download"></a><div class="title-download">' + data.blog.pageName + '</div><div id="new-after-ad"/>')
+      $t.replaceWith('<a name="download"></a><div class="title-download"></div><div id="new-after-ad"/>')
+      $(document).ready(function(){
+        $('.title-download').each(function () {
+          var text = $(this),
+              html = $('table .file-name').text();
+          text.html('Tải '+ html +' Hack cho Android')
+        })
+      });
     }
 });
 
@@ -144,6 +152,77 @@ $('.avatar-image-container img').attr('src', function($this, i) {
     i = i.replace('//img1.blogblog.com/img/blank.gif', '//1.bp.blogspot.com/-oSjP8F09qxo/Wy1J9dp7b0I/AAAAAAAACF0/ggcRfLCFQ9s2SSaeL9BFSE2wyTYzQaTyQCK4BGAYYCw/s72-r/avatar.jpg');
     return i
 });
+
+$('.post-body strike').each(function() {
+    var $this = $(this),
+        type = $this.text().trim(),
+        html = $this.html();
+    if (type.match('contact-form')) {
+        $this.replaceWith('<div class="contact-form"/>');
+        $('.contact-form').append($('#ContactForm1'))
+    }
+    if (type.match('alert-success')) {
+        $this.replaceWith('<div class="alert-message alert-success short-b">' + html + '</div>')
+    }
+    if (type.match('alert-info')) {
+        $this.replaceWith('<div class="alert-message alert-info short-b">' + html + '</div>')
+    }
+    if (type.match('alert-warning')) {
+        $this.replaceWith('<div class="alert-message alert-warning short-b">' + html + '</div>')
+    }
+    if (type.match('alert-danger')) {
+        $this.replaceWith('<div class="alert-message alert-danger short-b">' + html + '</div>')
+    }
+    if (type.match('callout-success')) {
+        $this.replaceWith('<div class="callout callout-success short-b">' + html + '</div>')
+    }
+    if (type.match('callout-info')) {
+        $this.replaceWith('<div class="callout callout-info short-b">' + html + '</div>')
+    }
+    if (type.match('callout-warning')) {
+        $this.replaceWith('<div class="callout callout-warning short-b">' + html + '</div>')
+    }
+    if (type.match('callout-danger')) {
+        $this.replaceWith('<div class="callout callout-danger short-b">' + html + '</div>')
+    }
+    if (type.match('code')) {
+        $this.replaceWith('<code class="short-b">' + html + '</code>')
+    }
+    if (type.match('kbd')) {
+        $this.replaceWith('<kbd class="short-b">' + html + '</kbd>')
+    }
+    if (type.match('left-sidebar')) {
+        $this.replaceWith('<style>.item #main-wrapper{float:right}.item #sidebar-wrapper{float:left}</style>')
+    }
+    if (type.match('right-sidebar')) {
+        $this.replaceWith('<style>.item #main-wrapper{float:left}.item #sidebar-wrapper{float:right}</style>')
+    }
+    if (type.match('full-width')) {
+        $this.replaceWith('<style>.item #main-wrapper{width:100%}.item #sidebar-wrapper{display:none}</style>')
+    }
+    if (type.match('file-name')) {
+        $this.replaceWith('<div class="download-list__title"><span class="file-name short-b">' + html + '</span><span class="version"></span></div>');
+        $(document).ready(function(){
+          $('.download-list .version').each(function () {
+            var text = $(this),
+                html = $('table .version').text();
+            text.html('v' + html + '')
+          })
+        });
+    }
+    if (type.match('file-link')) {
+        $this.replaceWith('<div class="download-list__file short-b">'+ html +'</div>')
+    }
+    var $sb = $('.post-body .short-b').find('b');
+    $sb.each(function() {
+        var $b = $(this),
+            $t = $b.text().trim();
+        if ($t.match('file-link') || $t.match('file-name') || $t.match('alert-success') || $t.match('alert-info') || $t.match('alert-warning') || $t.match('alert-danger') || $t.match('callout-success') || $t.match('callout-info') || $t.match('callout-warning') || $t.match('callout-danger') || $t.match('code') || $t.match('kbd')) {
+            $b.replaceWith("")
+        }
+    })
+});
+
 $('.post-body a').each(function() {
     var $this = $(this),
         type = $this.text().trim(),
@@ -193,6 +272,24 @@ $('.post-body a').each(function() {
     }
 });
 
+$('.post-body ul li').each(function() {
+    var $this = $(this),
+        type = $this.text().trim(),
+        html = $this.html();
+    if (type.match('download-item')) {
+      $this.replaceWith('<div class="download-item short-b">' + html + '</div>');
+      $('.download-item').parents('.post-body ul').addClass('download-list');
+    }
+    var $sb = $('.post-body .short-b').find('b');
+    $sb.each(function() {
+        var $b = $(this),
+            $t = $b.text().trim();
+        if ($t.match('download-item')) {
+            $b.replaceWith("")
+        }
+    })
+});
+
 $('.post-body blockquote').each(function() {
     var $this = $(this),
         type = $this.text().trim(),
@@ -210,7 +307,7 @@ $('.post-body blockquote').each(function() {
         $this.replaceWith('<div class="colorbox colorbox-danger short-b">' + html + '</div>')
     }
     if (type.match('descriptions')) {
-        $this.replaceWith('<div id="descriptions"> <div class="descriptions-item1"> <div class="descriptions-cont short-b" id="descriptions-cont">'+ html +'</div><div class="mask-descriptions"></div></div><div class="descriptions-item2"> <div class="descriptions-title"><span>Đọc thêm</span></div><div class="descriptions-title hidden"><span>Thu gọn</span></div></div></div>')
+        $this.replaceWith('<div id="descriptions"> <div class="descriptions-item1"><div class="descriptions-cont short-b" id="descriptions-cont">'+ html +'</div><div class="mask-descriptions"></div></div><div class="descriptions-item2"> <div class="descriptions-title"><span>Đọc thêm</span></div><div class="descriptions-title hidden"><span>Thu gọn</span></div></div></div>')
     }
     if (type.match('slider-img')) {
         $this.replaceWith('<div class="slider-img short-b">'+ html +'</div>');
@@ -244,62 +341,7 @@ $('.post-body blockquote').each(function() {
         }
     });
 });
-$('.post-body strike').each(function() {
-    var $this = $(this),
-        type = $this.text().trim(),
-        html = $this.html();
-    if (type.match('contact-form')) {
-        $this.replaceWith('<div class="contact-form"/>');
-        $('.contact-form').append($('#ContactForm1'))
-    }
-    if (type.match('alert-success')) {
-        $this.replaceWith('<div class="alert-message alert-success short-b">' + html + '</div>')
-    }
-    if (type.match('alert-info')) {
-        $this.replaceWith('<div class="alert-message alert-info short-b">' + html + '</div>')
-    }
-    if (type.match('alert-warning')) {
-        $this.replaceWith('<div class="alert-message alert-warning short-b">' + html + '</div>')
-    }
-    if (type.match('alert-danger')) {
-        $this.replaceWith('<div class="alert-message alert-danger short-b">' + html + '</div>')
-    }
-    if (type.match('callout-success')) {
-        $this.replaceWith('<div class="callout callout-success short-b">' + html + '</div>')
-    }
-    if (type.match('callout-info')) {
-        $this.replaceWith('<div class="callout callout-info short-b">' + html + '</div>')
-    }
-    if (type.match('callout-warning')) {
-        $this.replaceWith('<div class="callout callout-warning short-b">' + html + '</div>')
-    }
-    if (type.match('callout-danger')) {
-        $this.replaceWith('<div class="callout callout-danger short-b">' + html + '</div>')
-    }
-    if (type.match('code')) {
-        $this.replaceWith('<code class="short-b">' + html + '</code>')
-    }
-    if (type.match('kbd')) {
-        $this.replaceWith('<kbd class="short-b">' + html + '</kbd>')
-    }
-    if (type.match('left-sidebar')) {
-        $this.replaceWith('<style>.item #main-wrapper{float:right}.item #sidebar-wrapper{float:left}</style>')
-    }
-    if (type.match('right-sidebar')) {
-        $this.replaceWith('<style>.item #main-wrapper{float:left}.item #sidebar-wrapper{float:right}</style>')
-    }
-    if (type.match('full-width')) {
-        $this.replaceWith('<style>.item #main-wrapper{width:100%}.item #sidebar-wrapper{display:none}</style>')
-    }
-    var $sb = $('.post-body .short-b').find('b');
-    $sb.each(function() {
-        var $b = $(this),
-            $t = $b.text().trim();
-        if ($t.match('alert-success') || $t.match('alert-info') || $t.match('alert-warning') || $t.match('alert-danger') || $t.match('callout-success') || $t.match('callout-info') || $t.match('callout-warning') || $t.match('callout-danger') || $t.match('code') || $t.match('kbd')) {
-            $b.replaceWith("")
-        }
-    })
-});
+
 $('.about-author .author-description span a').each(function() {
     var $this = $(this),
         cls = $this.text().trim(),
@@ -380,7 +422,7 @@ $('#featured-sec .HTML .widget-content').each(function() {
             var label = this.options.label,
                 type = this.options.type;
             if ("results" in this.options) {
-                num = this.options.results;
+               var num = this.options.results;
             } else {
                 num = 8
             }
@@ -442,17 +484,17 @@ function getFeedUrl(type, num, label) {
     var furl = '';
     switch (label) {
         case 'recent':
-            furl = '/feeds/posts/summary?alt=json&max-results=' + num;
+            furl = '/feeds/posts/summary?alt=json-in-script&max-results=' + num;
             break;
         case 'comments':
             if (type == 'list') {
-                furl = '/feeds/comments/summary?alt=json&max-results=' + num
+                furl = '/feeds/comments/summary?alt=json-in-script&max-results=' + num
             } else {
-                furl = '/feeds/posts/summary/-/' + label + '?alt=json&max-results=' + num
+                furl = '/feeds/posts/summary/-/' + label + '?alt=json-in-script&max-results=' + num
             }
             break;
         default:
-            furl = '/feeds/posts/summary/-/' + label + '?alt=json&max-results=' + num;
+            furl = '/feeds/posts/summary/-/' + label + '?alt=json-in-script&max-results=' + num;
             break
     }
     return furl
@@ -515,15 +557,6 @@ function getPostDate(feed, i) {
     return code
 }
 
-
-function getPostSnippet(feed, i) {
-    var n = feed[i].summary.$t,
-        u = $('<div>').html(n),
-        c = u.text().trim().substr(0, 150),
-        code = '<div class="entry-snippet">' + c + '\u2026</div>';
-    return code
-}
-
 function getNumberComments(feed, i) {
     if ('thr$total' in feed[i]) {
         var u = feed[i].thr$total.$t,
@@ -545,254 +578,255 @@ function getPostComments(feed, i, link) {
     return code
 }
 
+
 function getAjax($this, type, num, label) {
-    var furl = '';
-    if (label == undefined) {
-        label = 'geterror404'
-    }
-    var startajax = function(url, indexNum) {
-        $.ajax({
-            url: url,
-            type: 'GET',
-            dataType: 'json',
-            cache: true,
-            beforeSend: function(data) {
-                switch (type) {
-                    case 'featured':
-                        $this.html(beforeLoader()).parent().addClass('show-ify show-' + type + '');
-                        break;
-                    case 'grid1':
-                    case 'carousel':
-                    case 'related':
-                        $this.html(beforeLoader()).parent().addClass('show-ify');
-                        break;
-                    case 'list':
-                        $this.html(beforeLoader());
-                        break
-                }
-            },
-            success: function(data) {
-                var html = '';
+  var furl = '';
+  if (label == undefined) {
+      label = 'geterror404'
+  }
+  var startajax = function(url, indexNum) {
+       $.ajax({
+          url: url,
+          type: 'GET',
+          dataType: 'jsonp',
+          cache: true,
+          beforeSend: function(data) {
+              switch (type) {
+                  case 'featured':
+                      $this.html(beforeLoader()).parent().addClass('show-ify show-' + type + '');
+                      break;
+                  case 'grid1':
+                  case 'carousel':
+                  case 'related':
+                      $this.html(beforeLoader()).parent().addClass('show-ify');
+                      break;
+                  case 'list':
+                      $this.html(beforeLoader());
+                      break
+              }
+          }
+      }).done(function(data) {
+        var html = '';
+        switch (type) {
+            case 'msimple':
+            case 'megatabs':
+                html = '<ul class="mega-widget">';
+                break;
+            case 'featured':
+                html = '<div class="featured-grid ' + type + '">';
+                break;
+            case 'grid1':
+                html = '<div class="grid-posts-1 total-' + num + '">';
+                break;
+            case 'carousel':
+                html = '<div class="block-carousel">';
+                break;
+            case 'list':
+                html = '<div class="custom-widget">';
+                break;
+            case 'related':
+                html = '<div class="related-posts total-' + num + '">';
+                break
+        }
+        var entry = data.feed.entry,
+            moreText = showMoreText,
+            text = '';
+        if (moreText != '') {
+            text = moreText
+        } else {
+            text = messages.showMore
+        }
+        if (entry != undefined) {
+            for (var i = 0, feed = entry; i < feed.length; i++) {
+                var link = getPostLink(feed, i),
+                    title = getPostTitle(feed, i, link),
+                    image = getPostImage(feed, i, link),
+                    author = getPostAuthor(feed, i),
+                    date = getPostDate(feed, i),
+                    comments = getNumberComments(feed, i);
+                var content = '';
                 switch (type) {
                     case 'msimple':
                     case 'megatabs':
-                        html = '<ul class="mega-widget">';
+                        content += '<article class="mega-item"><div class="mega-content"><a class="entry-image-link" href="' + link + '"><span class="entry-thumb" data-image="' + image + '"/></a><h2 class="entry-title"><a href="' + link + '">' + title + '</a></h2><div class="entry-meta">' + date[1] + '</div></div></article>';
                         break;
                     case 'featured':
-                        html = '<div class="featured-grid ' + type + '">';
+                        content += '<article class="featured-item item-' + i + '"><div class="featured-item-inner"><a class="entry-image-link" href="' + link + '"><span class="entry-thumb before-mask" data-image="' + image + '"/><h2 class="entry-title">' + title + '</h2></a></div></article>';
                         break;
                     case 'grid1':
-                        html = '<div class="grid-posts-1 total-' + num + '">';
+                        content += '<article class="grid-item item-' + i + '"><div class="entry-image"><a class="entry-image-link" href="' + link + '"><span class="entry-thumb before-mask" data-image="' + image + '"/><h2 class="entry-title">' + title + '</h2></a></div></article>';
                         break;
                     case 'carousel':
-                        html = '<div class="block-carousel">';
+                        content += '<article class="carousel-item item-' + i + '"><div class="entry-image"><a class="entry-image-link" href="' + link + '"><span class="entry-thumb" data-image="' + image + '"/></a></div><h2 class="entry-title"><a href="' + link + '">' + title + '</a></h2></article>';
                         break;
                     case 'list':
-                        html = '<div class="custom-widget">';
-                        break;
-                    case 'related':
-                        html = '<div class="related-posts total-' + num + '">';
-                        break
-                }
-                var entry = data.feed.entry,
-                    moreText = showMoreText,
-                    text = '';
-                if (moreText != '') {
-                    text = moreText
-                } else {
-                    text = messages.showMore
-                }
-                if (entry != undefined) {
-                    for (var i = 0, feed = entry; i < feed.length; i++) {
-                        var link = getPostLink(feed, i),
-                            title = getPostTitle(feed, i, link),
-                            image = getPostImage(feed, i, link),
-                            author = getPostAuthor(feed, i),
-                            date = getPostDate(feed, i),
-                            snippet = getPostSnippet(feed, i),
-                            comments = getNumberComments(feed, i);
-                        var content = '';
-                        switch (type) {
-                            case 'msimple':
-                            case 'megatabs':
-                                content += '<article class="mega-item"><div class="mega-content"><a class="entry-image-link" href="' + link + '"><span class="entry-thumb" data-image="' + image + '"/></a><h2 class="entry-title"><a href="' + link + '">' + title + '</a></h2><div class="entry-meta">' + date[1] + '</div></div></article>';
+                        switch (label) {
+                            case 'comments':
+                                var code = getPostComments(feed, i, link);
+                                content += code;
                                 break;
-                            case 'featured':
-                                content += '<article class="featured-item item-' + i + '"><div class="featured-item-inner"><a class="entry-image-link" href="' + link + '"><span class="entry-thumb before-mask" data-image="' + image + '"/><h2 class="entry-title">' + title + '</h2></a></div></article>';
-                                break;
-                            case 'grid1':
-                                content += '<article class="grid-item item-' + i + '"><div class="entry-image"><a class="entry-image-link" href="' + link + '"><span class="entry-thumb before-mask" data-image="' + image + '"/><h2 class="entry-title">' + title + '</h2></a></div></article>';
-                                break;
-                            case 'carousel':
-                                content += '<article class="carousel-item item-' + i + '"><div class="entry-image"><a class="entry-image-link" href="' + link + '"><span class="entry-thumb" data-image="' + image + '"/></a></div><h2 class="entry-title"><a href="' + link + '">' + title + '</a></h2></article>';
-                                break;
-                            case 'list':
-                                switch (label) {
-                                    case 'comments':
-                                        var code = getPostComments(feed, i, link);
-                                        content += code;
-                                        break;
-                                    default:
-                                        content += '<article class="custom-item item-' + i + '"><div class="entry-image"><a class="entry-image-link" href="' + link + '"><span class="entry-thumb" data-image="' + image + '"/></a></div><div class="entry-header"><h2 class="entry-title"><a href="' + link + '">' + title + '</a></h2><div class="entry-meta">' + date[1] + '</div></div></article>';
-                                        break
-                                }
-                                break;
-                            case 'related':
-                                content += '<article class="related-item item-' + i + '"><div class="related-item-inner"><div class="entry-image"><a class="entry-image-link" href="' + link + '"><span class="entry-thumb" data-image="' + image + '"/></a></div><h2 class="entry-title"><a href="' + link + '">' + title + '</a></h2><div class="entry-meta">' + date[1] + '</div></div></article>';
+                            default:
+                                content += '<article class="custom-item item-' + i + '"><div class="entry-image"><a class="entry-image-link" href="' + link + '"><span class="entry-thumb" data-image="' + image + '"/></a></div><div class="entry-header"><h2 class="entry-title"><a href="' + link + '">' + title + '</a></h2><div class="entry-meta">' + date[1] + '</div></div></article>';
                                 break
                         }
-                        html += content
-                    }
-                } else {
-                    switch (type) {
-                        case 'msimple':
-                        case 'megatabs':
-                            html = '<ul class="mega-widget">' + msgError() + '</ul>';
+                        break;
+                    case 'related':
+                        content += '<article class="related-item item-' + i + '"><div class="related-item-inner"><div class="entry-image"><a class="entry-image-link" href="' + link + '"><span class="entry-thumb" data-image="' + image + '"/></a></div><h2 class="entry-title"><a href="' + link + '">' + title + '</a></h2><div class="entry-meta">' + date[1] + '</div></div></article>';
+                        break
+                }
+                html += content
+            }
+        } else {
+            switch (type) {
+                case 'msimple':
+                case 'megatabs':
+                    html = '<ul class="mega-widget">' + msgError() + '</ul>';
+                    break;
+                default:
+                    html = msgError();
+                    break
+            }
+        }
+        switch (type) {
+            case 'msimple':
+                html += '</ul>';
+                $this.append(html).addClass('msimple');
+                $this.find('a:first').attr('href', function($this, href) {
+                    switch (label) {
+                        case 'recent':
+                            href = href.replace(href, '/search');
                             break;
                         default:
-                            html = msgError();
+                            href = href.replace(href, '/search/label/' + label);
                             break
                     }
+                    return href
+                });
+                break;
+            case 'featured':
+                html += '</div>';
+                if (label !== "random") {
+                    $this.html(html);
+                } else {
+                    $this.append(html).find('.spinner').remove();
+                    $this.find('article').unwrap().wrapAll('<div class="featured-grid ' + type + '">').promise().done(function() {
+                        var item = $this.find('article');
+                        item.removeClass('item-0');
+                        item.each(function(index, elem) {
+                            $(elem).addClass('item-' + index);
+                        })
+                    });
                 }
-                switch (type) {
-                    case 'msimple':
-                        html += '</ul>';
-                        $this.append(html).addClass('msimple');
-                        $this.find('a:first').attr('href', function($this, href) {
-                            switch (label) {
-                                case 'recent':
-                                    href = href.replace(href, '/search');
-                                    break;
-                                default:
-                                    href = href.replace(href, '/search/label/' + label);
-                                    break
-                            }
-                            return href
-                        });
-                        break;
-                    case 'featured':
-                        html += '</div>';
-                        if (label !== "random") {
-                            $this.html(html);
-                        } else {
-                            $this.append(html).find('.spinner').remove();
-                            $this.find('article').unwrap().wrapAll('<div class="featured-grid ' + type + '">').promise().done(function() {
-                                var item = $this.find('article');
-                                item.removeClass('item-0');
-                                item.each(function(index, elem) {
-                                    $(elem).addClass('item-' + index);
-                                })
-                            });
-                        }
-                        break;
-                    case 'grid1':
-                        html += '</div>';
-                        if (label == "recent") {
-                            $this.html(html).append('<div class="center"><a class="theme-button" href="/search?&max-results=6">' + text + '</a></div>');
-                        } else {
-                            $this.html(html).append('<div class="center"><a class="theme-button" href="/search/label/' + label + '?&max-results=6">' + text + '</a></div>');
-                        }
-                        break;
-                    case 'carousel':
-                        html += '</div>';
-                        $this.html(html);
-                        var $slider = $this.find('.block-carousel');
-                        $slider.owlCarousel({
-                            items: 3,
-                            loop: true,
-                            margin: 30,
-                            autoplay: true,
-                            autoplayTimeout: 3000,
-                            autoplayHoverPause: true,
-                            responsive: {
-                                0: {
-                                    items: 1
-                                },
-                                541: {
-                                    items: 2,
-                                    margin: 20
-                                },
-                                681: {
-                                    items: 2,
-                                    margin: 30
-                                },
-                                881: {
-                                    items: 3
-                                }
-                            }
-                        });
-                        break;
-                    case 'list':
-                        html += '</div>';
-                        if (label !== "random") {
-                            $this.html(html);
-                        } else {
-                            $this.append(html).find('.spinner').remove();
-                            $this.find('article').unwrap().wrapAll('<div class="custom-widget">').promise().done(function() {
-                                var item = $this.find('article');
-                                item.removeClass('item-0');
-                                item.each(function(index, elem) {
-                                    $(elem).addClass('item-' + index);
-                                })
-                            });
-                        }
-                        break;
-                    default:
-                        html += '</div>';
-                        $this.html(html);
-                        break
+                break;
+            case 'grid1':
+                html += '</div>';
+                if (label == "recent") {
+                    $this.html(html).append('<div class="center" id="blog-pager"><a class="theme-button" href="/search?&max-results=6">' + text + '</a></div>');
+                } else {
+                    $this.html(html).append('<div class="center" id="blog-pager"><a class="theme-button" href="/search/label/' + label + '?&max-results=6">' + text + '</a></div>');
                 }
-                $this.find('span.entry-thumb').lazyify()
-            },
-            error: function() {
-                switch (type) {
-                    case 'msimple':
-                        $this.append('<ul>' + msgServerError() + '</ul>');
-                        break;
-                    default:
-                        $this.html(msgServerError());
-                        break
+                break;
+            case 'carousel':
+                html += '</div>';
+                $this.html(html);
+                var $slider = $this.find('.block-carousel');
+                $slider.owlCarousel({
+                    items: 1,
+                    loop: true,
+                    margin: 30,
+                    autoHeight:true,
+                    autoplay: true,
+                    autoplayTimeout: 3000,
+                    autoplayHoverPause: true,
+                    responsive: {
+                        0: {
+                            items: 1
+                        },
+                        541: {
+                            items: 2,
+                            margin: 20
+                        },
+                        681: {
+                            items: 2,
+                            margin: 30
+                        },
+                        881: {
+                            items: 3
+                        }
+                    }
+                });
+                break;
+            case 'list':
+                html += '</div>';
+                if (label !== "random") {
+                    $this.html(html);
+                } else {
+                    $this.append(html).find('.spinner').remove();
+                    $this.find('article').unwrap().wrapAll('<div class="custom-widget">').promise().done(function() {
+                        var item = $this.find('article');
+                        item.removeClass('item-0');
+                        item.each(function(index, elem) {
+                            $(elem).addClass('item-' + index);
+                        })
+                    });
                 }
-            }
-        })
-    }
-    switch (type) {
-        case 'featured':
-        case 'list':
+                break;
+            default:
+                html += '</div>';
+                $this.html(html);
+                break
+        }
+        $this.find('span.entry-thumb').lazyify()
+      }).fail(function() {
+        switch (type) {
+          case 'msimple':
+              $this.append('<ul>' + msgServerError() + '</ul>');
+              break;
+          default:
+              $this.html(msgServerError());
+              break
+      }
+      });
+  }
+  switch (type) {
+      case 'featured':
+      case 'list':
             if (label != 'random') {
                 furl = getFeedUrl(type, num, label);
                 startajax(furl);
             } else {
                 var total, randomArr = [];
                 $.ajax({
-                    type: "GET",
-                    url: "/feeds/posts/summary?alt=json&max-results=0",
-                    success: function(data) {
-                        total = parseInt(data.feed.openSearch$totalResults.$t);
-                        if (num > total) num = total;
-                        while (randomArr.length < num) {
-                            var r = Math.floor(Math.random() * total) + 1;
-                            if (randomArr.indexOf(r) === -1) randomArr.push(r);
-                        }
+                  type: "GET",
+                  dataType: 'jsonp',
+                  url: "/feeds/posts/summary?alt=json-in-script&max-results=0",
+                  success: function(data) {
+                    total = parseInt(data.feed.openSearch$totalResults.$t);
+                    if (num > total) num = total;
+                    while (randomArr.length < num) {
+                      var r = Math.floor(Math.random() * total) + 1;
+                      if (randomArr.indexOf(r) === -1) randomArr.push(r);
                     }
+                  }
                 }).done(function() {
-                    var appended = false;
-                    $(randomArr).each(function(i, index) {
-                        furl = '/feeds/posts/summary?alt=json&max-results=1&start-index=' + index;
-                        startajax(furl, i);
-                    })
+                  $(randomArr).each(function(i, index) {
+                    furl = '/feeds/posts/summary?alt=json-in-script&max-results=1&start-index=' + index;
+                    startajax(furl, i);
+                  })
                 })
             }
-            break;
-        case 'msimple':
-        case 'megatabs':
-        case 'grid1':
-        case 'carousel':
-        case 'related':
-            furl = getFeedUrl(type, num, label);
-            startajax(furl);
+          break;
+      case 'msimple':
+      case 'megatabs':
+      case 'grid1':
+      case 'carousel':
+      case 'related':
+        furl = getFeedUrl(type, num, label);
+        startajax(furl);
+        break;
     }
 }
+
 
 function ajaxMega($this, type, num, label, text) {
     if (text.match('getmega')) {
@@ -847,6 +881,7 @@ function ajaxRelated($this, type, num, label, text) {
         return getAjax($this, type, num, label)
     }
 }
+
 $('.comments-title h3.title').each(function() {
     var $t = $(this),
         $tx = $t.text().trim(),
@@ -956,8 +991,8 @@ $(function() {
         $("body").addClass("fixed");
     }
     $(window).scroll(function() {
-        if (fixedMenu == true) {
-            if ($(window).scrollTop() >= 50) {
+        if (fixedMenu == true && data.view.isMobileRequest != "true") {
+            if ($(window).scrollTop() >= 30) {
                 $('.navbar-wrap').addClass('scroll');
             } else {
                 $('.navbar-wrap').removeClass('scroll');
@@ -973,6 +1008,7 @@ $(function() {
             })
         }
     });
+  if(data.view.isMobileRequest != "true"){
     $('.back-top').each(function() {
         var $this = $(this);
         $(window).on('scroll', function() {
@@ -983,12 +1019,7 @@ $(function() {
             }, 500)
         })
     });
-
-    $('span.comment-content').each(function() {
-        var $t = $(this);
-        $t.replaceText(/(https:\/\/\S+(\.png|\.jpeg|\.jpg|\.gif))/g, '<img src="$1"/>');
-        $t.replaceText(/(?:https:\/\/)?(?:www\.)?(?:youtube\.com)\/(?:watch\?v=)?(.+)/g, '<iframe id="youtube" width="100%" height="330" src="https://www.youtube.com/embed/$1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>')
-    });
+  }
 
     $('#load-more-link').each(function() {
         var $this = $(this),
@@ -1017,35 +1048,82 @@ $(function() {
                     $('#blog-pager .loading').show()
                 },
                 complete: function() {
-                    $('#blog-pager .loading').hide()
+                    $('#blog-pager .loading').hide();
                 }
             });
             a.preventDefault()
         })
     })
-    $(".post-body > img:first").remove();
 });
 
-$('.post-nav')['each'](function() {
-    var getLinkOlderPost = $('a.blog-pager-older-link')['attr']('href'),
-        getLinkNewerPost = $('a.blog-pager-newer-link')['attr']('href');
-    $['ajax']({
-        url: getLinkOlderPost,
-        type: 'get',
-        success: function(data) {
-            var getTitle = $(data)['find']('.blog-post h1.entry-title')['text']();
-            $('.post-older a .post-nav-inner p')['text'](getTitle)
-        }
+if(data.view.isPost == "true"){
+  $('.post-nav').each(function() {
+    var getLinkOlderPost = $('a.blog-pager-older-link').attr('href'),
+        getLinkNewerPost = $('a.blog-pager-newer-link').attr('href');
+    $.ajax({
+      url: getLinkOlderPost,
+      type: 'get',
+      success: function(data) {
+        var getTitle = $(data).find('.blog-post h1.entry-title').text();
+        $('.post-older a .post-nav-inner p').text(getTitle)
+      }
     });
-    $['ajax']({
-        url: getLinkNewerPost,
-        type: 'get',
-        success: function(data) {
-            var getTitle = $(data)['find']('.blog-post h1.entry-title')['text']();
-            $('.post-newer a .post-nav-inner p')['text'](getTitle)
-        }
+    $.ajax({
+      url: getLinkNewerPost,
+      type: 'get',
+      success: function(data) {
+        var getTitle = $(data).find('.blog-post h1.entry-title').text();
+        $('.post-newer a .post-nav-inner p').text(getTitle)
+      }
     })
+  });
+
+  $(".post-body > img:first").remove();
+
+  $('.collapsible-item--title,.download-list__title').click(function(e) {
+    $(this).toggleClass('active').siblings('.collapsible-item--content,.download-list__file').slideToggle(500);
+    $(this).parent().siblings().children('.collapsible-item--title,.download-list__title').removeClass('active');
+    $(this).parent().siblings().children('.collapsible-item--content,.download-list__file').slideUp(500);
+  });
+}
+
+$('#startinhitapp-main-menu-nav li > a').each(function() {
+    if (data.view.isPost == 'true') {
+        var x = $('#breadcrumb a.label').attr('href'),
+            y = $(this).attr('href')
+    } else {
+        var x = $('link[rel=canonical]').attr('href')
+        if (x.indexOf('?') != -1) {
+            x = x.substr(0, x.indexOf('?'))
+        }
+        var y = $(this).attr('href')
+        y = y.substr(0, y.indexOf('?'))
+    }
+    if (x === y) {
+        $(this).addClass('current active');
+        $('#startinhitapp-main-menu-nav li > a').not($(this)).removeClass('current active')
+    }
 });
+
+$('#startinhitapp-main-menu-nav li > a').hover(function() {
+    $('#startinhitapp-main-menu-nav li > a.active').toggleClass('current');
+});
+
+if ($("#startinhitapp-main-menu-nav li > ul li > a").hasClass("current")) {
+    $("#startinhitapp-main-menu-nav li ul > li > a.current").parents("#startinhitapp-main-menu-nav > li").children("#startinhitapp-main-menu-nav > li > a").toggleClass('current active');
+}
+
+if(data.view.isMobileRequest == "true"){
+/*! delete ?m=1 */
+var uri;if((uri=window.location.toString()).indexOf("%3D","%3D")>0){var clean_uri=uri.substring(0,uri.indexOf("%3D"));window.history.replaceState({},document.title,clean_uri)}if((uri=window.location.toString()).indexOf("%3D%3D","%3D%3D")>0){clean_uri=uri.substring(0,uri.indexOf("%3D%3D"));window.history.replaceState({},document.title,clean_uri)}if((uri=window.location.toString()).indexOf("&m=1","&m=1")>0){clean_uri=uri.substring(0,uri.indexOf("&m=1"));window.history.replaceState({},document.title,clean_uri)}if((uri=window.location.toString()).indexOf("?m=1","?m=1")>0){clean_uri=uri.substring(0,uri.indexOf("?m=1"));window.history.replaceState({},document.title,clean_uri)}var protocol=window.location.protocol.replace(/\:/g,"");if("http"==protocol){var url=window.location.href.replace("http","https");window.location.replace(url)};
+}
+
+if(data.view.isSingleItem == "true"){
+  $('span.comment-content').each(function() {
+    var $t = $(this);
+    $t.replaceText(/(https:\/\/\S+(\.png|\.jpeg|\.jpg|\.gif))/g, '<img src="$1"/>');
+    $t.replaceText(/(?:https:\/\/)?(?:www\.)?(?:youtube\.com)\/(?:watch\?v=)?(.+)/g, '<iframe id="youtube" width="100%" height="330" src="https://www.youtube.com/embed/$1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>')
+  });
 
 $(function() {
     $('a[href*="#"]:not([href="#"])').click(function() {
@@ -1062,49 +1140,8 @@ $(function() {
     });
 });
 
-$('.collapsible-item--title').click(function(e) {
-    $(this).toggleClass('active').siblings('.collapsible-item--content').slideToggle(500);
-    $(this).parent().siblings().children('.collapsible-item--title').removeClass('active');
-    $(this).parent().siblings().children('.collapsible-item--content').slideUp(500);
-});
-
 $(".post-body ol > li > a > img").parents(".post-body ol").addClass('slider-img');
 
-$('#startinhitapp-main-menu-nav li > a').each(function() {
-    if (data.view.isPost == 'true') {
-        var x = $('#breadcrumb a.label').attr('href'),
-            y = $(this).attr('href')
-    } else {
-        var x = $('link[rel=canonical]').attr('href')
-        if (x.indexOf('?') != -1) {
-            x = x.substr(0, x.indexOf('?'))
-        }
-        var y = $(this).attr('href')
-        y = y.substr(0, y.indexOf('?'))
-    }
-    if (data.view.isHomepage == 'true') {
-        $(this).addClass('current active');
-    }
-    if (x === y) {
-        $(this).addClass('current active');
-        $('#startinhitapp-main-menu-nav li > a').not($(this)).removeClass('current active')
-    }
-});
-
-$('#startinhitapp-main-menu-nav li > a').hover(function() {
-    $('#startinhitapp-main-menu-nav li > a.active').toggleClass('current');
-});
-
-if ($("#startinhitapp-main-menu-nav li > ul li > a").hasClass("current")) {
-    $("#startinhitapp-main-menu-nav li ul > li > a.current").parents("#startinhitapp-main-menu-nav > li").children("#startinhitapp-main-menu-nav > li > a").toggleClass('current active');
-}
- 
-if(data.view.isMobileRequest == "true"){
-/*! delete ?m=1 */
-var uri;if((uri=window.location.toString()).indexOf("%3D","%3D")>0){var clean_uri=uri.substring(0,uri.indexOf("%3D"));window.history.replaceState({},document.title,clean_uri)}if((uri=window.location.toString()).indexOf("%3D%3D","%3D%3D")>0){clean_uri=uri.substring(0,uri.indexOf("%3D%3D"));window.history.replaceState({},document.title,clean_uri)}if((uri=window.location.toString()).indexOf("&m=1","&m=1")>0){clean_uri=uri.substring(0,uri.indexOf("&m=1"));window.history.replaceState({},document.title,clean_uri)}if((uri=window.location.toString()).indexOf("?m=1","?m=1")>0){clean_uri=uri.substring(0,uri.indexOf("?m=1"));window.history.replaceState({},document.title,clean_uri)}var protocol=window.location.protocol.replace(/\:/g,"");if("http"==protocol){var url=window.location.href.replace("http","https");window.location.replace(url)};
-}
-
-if(data.view.isSingleItem == "true"){
 /*! description */
 var content = document.getElementById('descriptions-cont');
 $(content).css("max-height", "150px");
@@ -1122,9 +1159,7 @@ var postBody=document.querySelector(".post-body"),titleChapter=postBody.querySel
 
 /*! post views */
 $(function(){jQuery.getScript("https://cdn.firebase.com/js/client/2.3.2/firebase.js").done(function(){$.each($(".post-views"),function(t,a){var e=$(a).find("#postviews"),i=$('link[rel="canonical"]').attr("href"),n=new Firebase("https://nguyen-tinh.firebaseio.com/pages/id/"+$(a).attr("data-id"));n.once("value",function(t){var r=t.val(),l=!1;null==r&&((r={}).value=0,r.url=$(a).attr("data-href"),r.id=$(a).attr("data-id"),l=!0),e.text(r.value),r.value++,"/"!=window.location.pathname&&$(a).attr("data-href")==i&&(l?n.set(r):n.child("value").set(r.value))})})})});
-}
 
-if(data.view.isSingleItem == "true"){
 /*! timeago */
 !function(t){"function"==typeof define&&define.amd?define(["jquery"],t):"object"==typeof module&&"object"==typeof module.exports?t(require("jquery")):t(jQuery)}(function(t){t.timeago=function(e){return e instanceof Date?r(e):r("string"==typeof e?t.timeago.parse(e):"number"==typeof e?new Date(e):t.timeago.datetime(e))};var e=t.timeago;t.extend(t.timeago,{settings:{refreshMillis:6e4,allowPast:!0,allowFuture:!1,localeTitle:!1,cutoff:0,autoDispose:!0,strings:{prefixAgo:null,prefixFromNow:null,suffixAgo:null,suffixFromNow:null,inPast:"vừa xong",seconds:"vừa xong",minute:"1 phút trước",minutes:"%d phút trước",hour:"1 giờ trước",hours:"%d giờ trước",day:"1 ngày trước",days:"%d ngày trước",month:"1 tháng trước",months:"%d tháng trước",year:"1 năm trước",years:"%d năm trước",wordSeparator:" ",numbers:[]}},inWords:function(e){if(!this.settings.allowPast&&!this.settings.allowFuture)throw"timeago allowPast and allowFuture settings can not both be set to false.";var i=this.settings.strings,a=i.prefixAgo,r=i.suffixAgo;if(this.settings.allowFuture&&e<0&&(a=i.prefixFromNow,r=i.suffixFromNow),!this.settings.allowPast&&e>=0)return this.settings.strings.inPast;var n=Math.abs(e)/1e3,o=n/60,s=o/60,u=s/24,l=u/365;function m(a,r){var n=t.isFunction(a)?a(r,e):a,o=i.numbers&&i.numbers[r]||r;return n.replace(/%d/i,o)}var c=n<45&&m(i.seconds,Math.round(n))||n<90&&m(i.minute,1)||o<45&&m(i.minutes,Math.round(o))||o<90&&m(i.hour,1)||s<24&&m(i.hours,Math.round(s))||s<42&&m(i.day,1)||u<30&&m(i.days,Math.round(u))||u<45&&m(i.month,1)||u<365&&m(i.months,Math.round(u/30))||l<1.5&&m(i.year,1)||m(i.years,Math.round(l)),d=i.wordSeparator||"";return void 0===i.wordSeparator&&(d=" "),t.trim([a,c,r].join(d))},parse:function(e){var i=t.trim(e);return i=(i=(i=(i=(i=i.replace(/\.\d+/,"")).replace(/-/,"/").replace(/-/,"/")).replace(/T/," ").replace(/Z/," UTC")).replace(/([\+\-]\d\d)\:?(\d\d)/," $1$2")).replace(/([\+\-]\d\d)$/," $100"),new Date(i)},datetime:function(i){var a=e.isTime(i)?t(i).attr("datetime"):t(i).attr("title");return e.parse(a)},isTime:function(e){return"time"===t(e).get(0).tagName.toLowerCase()}});var i={init:function(){i.dispose.call(this);var r=t.proxy(a,this);r();var n=e.settings;n.refreshMillis>0&&(this._timeagoInterval=setInterval(r,n.refreshMillis))},update:function(i){var r=i instanceof Date?i:e.parse(i);t(this).data("timeago",{datetime:r}),e.settings.localeTitle&&t(this).attr("title",r.toLocaleString()),a.apply(this)},updateFromDOM:function(){t(this).data("timeago",{datetime:e.parse(e.isTime(this)?t(this).attr("datetime"):t(this).attr("title"))}),a.apply(this)},dispose:function(){this._timeagoInterval&&(window.clearInterval(this._timeagoInterval),this._timeagoInterval=null)}};function a(){var i=e.settings;if(i.autoDispose&&!t.contains(document.documentElement,this))return t(this).timeago("dispose"),this;var a=function(i){if(!(i=t(i)).data("timeago")){i.data("timeago",{datetime:e.datetime(i)});var a=t.trim(i.text());e.settings.localeTitle?i.attr("title",i.data("timeago").datetime.toLocaleString()):!(a.length>0)||e.isTime(i)&&i.attr("title")||i.attr("title",a)}return i.data("timeago")}(this);return isNaN(a.datetime)||(0===i.cutoff||Math.abs(n(a.datetime))<i.cutoff?t(this).text(r(a.datetime)):t(this).attr("title").length>0&&t(this).text(t(this).attr("title"))),this}function r(t){return e.inWords(n(t))}function n(t){return(new Date).getTime()-t.getTime()}t.fn.timeago=function(t,e){var a=t?i[t]:i.init;if(!a)throw new Error("Unknown function name '"+t+"' for timeago");return this.each(function(){a.call(this,e)}),this},document.createElement("abbr"),document.createElement("time")}),$(".date-time a").each(function(){var t=$(this),e=(e=(e=t.html()).replace("SA","AM")).replace("CH","PM");t.attr("datetime",e),t.html(jQuery.timeago(e))});
 
