@@ -1078,7 +1078,7 @@ if(data.view.isPost == "true"){
     })
   });
 
-  $(".post-body > img:first").remove();
+  $(".post-body img:first").remove();
 
   $('.collapsible-item--title,.download-list__title').click(function(e) {
     $(this).toggleClass('active').siblings('.collapsible-item--content,.download-list__file').slideToggle(500);
