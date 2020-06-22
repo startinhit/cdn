@@ -1,7 +1,7 @@
 /*!-----------------------------------------------
 *   Name: Startinhit Newspaper Premium Version For Blogspot
-*   Version: 1.9.0
-*   Last Updated: 22/03/2020
+*   Version: 1.9.2
+*   Last Updated: 22/06/2020
 *   Author Name: Nguyễn Tỉnh
 *   Author URI: https://admin.nguyentinhblog.com
 *   Website: https://www.nguyentinhblog.com
@@ -29,8 +29,8 @@ function auto(){document.body.classList.add('auto');if(new Date().getHours()>21|
         return this.each(function() {
             var t = a(this),
                 dImg = t.attr('data-image'),
-                iWid = Math.round(t.width() * 1.2),
-                iHei = Math.round(t.height() * 1.2),
+                iWid = Math.round(t.width()),
+                iHei = Math.round(t.height()),
                 iSiz = '/w' + iWid + '-h' + iHei + '-p-k-no-nu',
                 img = '';
             if (dImg.match('s72-c')) {
@@ -41,7 +41,6 @@ function auto(){document.body.classList.add('auto');if(new Date().getHours()>21|
                 img = dImg
             }
             a(window).on('resize scroll', lazyOnScroll);
-
             function lazyOnScroll() {
                 var wHeight = a(window).height(),
                     scrTop = a(window).scrollTop(),
@@ -164,6 +163,35 @@ $('.post-body a').each(function() {
             })
         }
     }
+    if (type.match('source')) {
+        $this.addClass('data-source').html('<span>Source </span><span class="data-source__name">' + txt + '</span><i aria-hidden="true" class="fa fa-external-link"></i>').wrap('<div id="source"></div>');
+    }
+    if (type.match('is-link')) {
+        $this.addClass('is-link').text(txt);
+        if (ico != 'is-link') {
+            $this.text(txt + ' (.' + ico + ')');
+        }
+        if (color != 'is-link') {
+            $this.addClass('colored-is-link').css({
+                'background-color': 'transparent',
+                'border': 'solid 1px' + color,
+                'color': color
+            })
+            $this.hover(function() {
+                $this.css({
+                    'background-color': color,
+                    'border': 'solid 1px' + color,
+                    'color': '#ffffff'
+                })
+            }, function() {
+                $this.css({
+                    'background-color': 'transparent',
+                    'border': 'solid 1px' + color,
+                    'color': color
+                })
+            });
+        }
+    }
 });
 $('.post-body blockquote').each(function() {
     var $this = $(this),
@@ -196,11 +224,33 @@ $('.post-body blockquote').each(function() {
     if (type.match('code-scss')) {
         $this.replaceWith('<pre class="scss short-b">' + html + '</pre>')
     }
+    if (type.match('slider-img')) {
+        $this.replaceWith('<div class="slider-img short-b">'+ html +'</div>');
+        $('.slider-img').owlCarousel({
+            items: 2,
+            loop: true,
+            margin: 10,
+            autoplay: true,
+            autoplayTimeout: 3000,
+            autoplayHoverPause: true,
+            autoHeight:true,
+            stagePadding: 30,
+            responsiveClass:true,
+            responsive:{
+                0:{
+                    items:1,
+                },
+                681:{
+                    items:2,
+                }
+            }
+        });
+    }
     var $sb = $('.post-body .short-b').find('b');
     $sb.each(function() {
         var $b = $(this),
             $t = $b.text().trim();
-        if ($t.match('colorbox-success') || $t.match('colorbox-info') || $t.match('colorbox-warning') || $t.match('colorbox-danger') || $t.match('code-css') || $t.match('code-js') || $t.match('code-xml') || $t.match('code-php') || $t.match('code-scss')) {
+        if ($t.match('slider-img') || $t.match('colorbox-success') || $t.match('colorbox-info') || $t.match('colorbox-warning') || $t.match('colorbox-danger') || $t.match('code-css') || $t.match('code-js') || $t.match('code-xml') || $t.match('code-php') || $t.match('code-scss')) {
             $b.replaceWith("")
         }
     })
@@ -932,7 +982,15 @@ function ajaxBlock($this, type, num, label, text) {
                 text = messages.showMore
             }
             $this.parent().find('.widget-title').append('<a class="more" href="/search/label/' + label + '">' + text + '</a>');
-            return getAjax($this, type, num, label)
+            var ajaxBlock_scroll = false
+            $(window).on('scroll', function () {
+                if ($(this).scrollTop() != 0) {
+                    if (!ajaxBlock_scroll) {
+                        ajaxBlock_scroll = true
+                        return getAjax($this, type, num, label)
+                    }
+                }
+            })
         } else {
             $this.html(msgError()).parent().addClass('show-ify')
         }
@@ -942,7 +1000,15 @@ function ajaxBlock($this, type, num, label, text) {
 function ajaxWidget($this, type, num, label, text) {
     if (text.match('getwidget')) {
         if (type == 'list') {
-            return getAjax($this, type, num, label)
+            var ajaxWidget_scroll = false
+            $(window).on('scroll', function () {
+                if ($(this).scrollTop() != 0) {
+                    if (!ajaxWidget_scroll) {
+                        ajaxWidget_scroll = true
+                        return getAjax($this, type, num, label)
+                    }
+                }
+            })
         } else {
             $this.html(msgError())
         }
@@ -951,7 +1017,15 @@ function ajaxWidget($this, type, num, label, text) {
 
 function ajaxRelated($this, type, num, label, text) {
     if (text.match('getrelated')) {
-        return getAjax($this, type, num, label)
+        var ajaxRelated_scroll = false
+        $(window).on('scroll', function () {
+            if ($(this).scrollTop() != 0) {
+                if (!ajaxRelated_scroll) {
+                    ajaxRelated_scroll = true
+                    return getAjax($this, type, num, label)
+                }
+            }
+        })
     }
 }
 $('.comments-title h3.title').each(function() {
@@ -981,6 +1055,7 @@ $('.startinhitnews-blog-post-comments').each(function() {
         case 'blogger':
             $this.addClass(sClass).show();
             $('.entry-meta .entry-comments-link').addClass('show');
+$(window).bind("load",function(){var e=$("#comments").attr("data-embed"),o=$("#comments").attr("data-allow-comments");if("true"==e&&"true"==o){if($.fn.reverseChildren=function(){return this.each(function(){var e=$(this);e.children().each(function(){e.prepend(this)})})},$(".comments-content ol").reverseChildren(),$(".sort-option").on("change",function(){$(".comments-content ol").reverseChildren()}),-1!=url.indexOf("#comments")&&-1!=url.indexOf("?showComment"))-1!=url.indexOf("?showComment")&&loadCSS("https://www.blogger.com/dyn-css/authorization.css?targetBlogID="+data.blog.blogId,"css"),$(".commentForm").removeClass("hidden"),$(".commentForm").append('<iframe class="blogger-iframe-colorize blogger-comment-from-post" id="comment-editor" name="comment-editor" src="" title="comment iframe"></iframe>'),$.getScript("https://www.blogger.com/static/v1/jsbin/1479000943-comment_from_post_iframe.js").done(function(){BLOG_CMT_createIframe("https://www.blogger.com/rpc_relay.html"),$(".commentForm").removeClass("spinner")});else{var t=!1;$(document).on("scroll",function(){$(this).scrollTop()>=$(".post-body").position().top&&(t||(t=!0,$("#comments").hasClass("threaded")&&loadCSS("https://www.blogger.com/dyn-css/authorization.css?targetBlogID="+data.blog.blogId,"css"),$(".commentForm").removeClass("hidden"),$(".commentForm").append('<iframe class="blogger-iframe-colorize blogger-comment-from-post" id="comment-editor" name="comment-editor" src="" title="comment iframe"></iframe>'),$.getScript("https://www.blogger.com/static/v1/jsbin/1479000943-comment_from_post_iframe.js").done(function(){BLOG_CMT_createIframe("https://www.blogger.com/rpc_relay.html"),$(".commentForm").removeClass("spinner")})))})}$(".post-header a.post-comment").click(function(){$("html,body").stop().animate({scrollTop:$(".commentForm").offset().top-100},"slow")});var m="",n="";$(".comment a.comment-reply").click(function(e){m=$("#comment-editor").attr("src"),$(".calcel-reply").remove(),$(".comment-actions").removeAttr("style");var o=$(this),t=o.attr("data-comment-id");m=m+"&parentID="+t,n=o.parent().parent().parent().attr("id"),$("#comment-editor").attr("src",m),o.parent().hide(),$(".commentForm").appendTo($("#"+n+">.comment-replybox-single")),$("html,body").stop().animate({scrollTop:$(".commentForm").offset().top-100},"slow"),$("#"+n+">.comment-replybox-single").append('<div class="calcel-reply"><button class="theme-button blue" type="button">Hủy</button></div>'),$(".calcel-reply").click(function(){$(this).remove(),$(".comment-actions").removeAttr("style"),$(".commentForm").appendTo($(".comment-form")),$("html,body").stop().animate({scrollTop:$(".commentForm").offset().top-100},"slow")})}),$(".toplevel-thread>ol>li>.comment-replies").each(function(){$(this).find(".comment-thread>ol>li").length>0&&$(this).before('<div class="view-replies"><span>Xem '+$(this).find(".comment-thread>ol>li").length+" câu trả lời</span></div>"),$(".comment .view-replies>span").click(function(){$(this).parent().hide(),$(this).parent().next().removeClass("hidden")})});var r=$(".toplevel-thread>ol>li"),s=20,l=r.length,a=0,i=0;if(-1!=url.indexOf("?showComment"))if(-1!=url.indexOf("#c")){if(n="#"+url.substring(url.indexOf("#c")+1,url.length),(a=$(n).parents(".comment-thread").hasClass("thirdlevel-thread")?$(n).parents("li").parents("li").index():$(n).parents(".comment-thread").hasClass("secondlevel-thread")?$(n).parents("li").index():$(n).index())>s)for(var c=0;c<a+1;c++)$(r[c]).removeClass("hidden");else for(c=0;c<s;c++)$(r[c]).removeClass("hidden");a<l&&$("#comments .loadmore").removeClass("hidden"),$(n).parents("li").find(".view-replies").hide(),$(n).parents(".comment-replies").removeClass("hidden"),$("html,body").stop().animate({scrollTop:$(n).offset().top-100},"slow")}else{for(c=0;c<s;c++)$(r[c]).removeClass("hidden");l>s&&$("#comments .loadmore").removeClass("hidden")}else{for(c=0;c<s;c++)$(r[c]).removeClass("hidden");l>s&&$("#comments .loadmore").removeClass("hidden")}$("#comments .loadmore>a").click(function(){if(i=$(".toplevel-thread>ol>li.comment.hidden").length,a=l-i,0==i)$(this).parent().addClass("hidden"),$("#comments .showless").removeClass("hidden");else for(var e=a;e<a+s;e++)$(r[e]).removeClass("hidden")}),$("#comments .showless>a").click(function(){l=r.length;for(var e=s;e<l;e++)$(r[e]).addClass("hidden");$(this).parent().addClass("hidden"),$("#comments .loadmore").removeClass("hidden"),$("html,body").stop().animate({scrollTop:$(".commentForm").offset().top-100},"slow")}),-1!=url.indexOf("#comments")&&$("html,body").stop().animate({scrollTop:$(".commentForm").offset().top-100},"slow")}});
             break;
         case 'disqus':
             $this.addClass(sClass).show();
@@ -1139,28 +1214,33 @@ $(function() {
         })
     })
 });
-
-$('.post-nav')['each'](function() {
-    var getLinkOlderPost = $('a.blog-pager-older-link')['attr']('href'),
-        getLinkNewerPost = $('a.blog-pager-newer-link')['attr']('href');
-    $['ajax']({
-        url: getLinkOlderPost,
-        type: 'get',
-        success: function(data) {
-            var getTitle = $(data)['find']('.blog-post h1.entry-title')['text']();
-            $('.post-older a .post-nav-inner p')['text'](getTitle)
+if(data.view.isMobileRequest != "true"){
+    $('#startinhitnews-main-menu-nav li > a').each(function() {
+        if (data.view.isPost == 'true') {
+            var x = $('#breadcrumb a.label').attr('href'),
+                y = $(this).attr('href')
+        } else {
+            var x = $('link[rel=canonical]').attr('href')
+            if (x.indexOf('?') != -1) {
+                x = x.substr(0, x.indexOf('?'))
+            }
+            var y = $(this).attr('href')
+            y = y.substr(0, y.indexOf('?'))
+        }
+        if (x === y) {
+            $(this).addClass('current active');
+            $('#startinhitnews-main-menu-nav li > a').not($(this)).removeClass('current active')
         }
     });
-    $['ajax']({
-        url: getLinkNewerPost,
-        type: 'get',
-        success: function(data) {
-            var getTitle = $(data)['find']('.blog-post h1.entry-title')['text']();
-            $('.post-newer a .post-nav-inner p')['text'](getTitle)
-        }
-    })
-});
 
+    $('#startinhitnews-main-menu-nav li > a').hover(function() {
+        $('#startinhitnews-main-menu-nav li > a.active').toggleClass('current');
+    });
+
+    if ($("#startinhitnews-main-menu-nav li > ul li > a").hasClass("current")) {
+        $("#startinhitnews-main-menu-nav li ul > li > a.current").parents("#startinhitnews-main-menu-nav > li").children("#startinhitnews-main-menu-nav > li > a").toggleClass('current active');
+    }
+}
 $(function() {
     $('a[href*="#"]:not([href="#"])').click(function() {
         if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && location.hostname == this.hostname) {
@@ -1176,11 +1256,22 @@ $(function() {
     });
 });
 
-$('.collapsible-item--title').click(function (e) {
-  $(this).toggleClass('active').siblings('.collapsible-item--content').slideToggle(500);
-  $(this).parent().siblings().children('.collapsible-item--title').removeClass('active');
-  $(this).parent().siblings().children('.collapsible-item--content').slideUp(500);
-})
+$("#button-contact").replaceWith("<div class='wh-widget-send-button-desktop'> <div class='wh-widget-send-button-wrapper wh-widget-right'> <div class='wh-widget-hello-popup-wrapper wh-popup-right wh-hide popup-slide popup-slide-in'> <div class='wh-widget-hello-popup'> <div class='wh-widget-hello-popup-close'> <svg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'> <path d='M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z'/> <path d='M0 0h24v24H0z' fill='none'/> </svg> </div></div></div><div class='wh-animation-in' id='wh-call-to-action' style='top: 29px;'> <a href='javascript:void(0)' title=''> <div class='wh-call-to-action-content'>Liên hệ hỗ trợ 24/7</div></a> </div><div class='wh-widget-send-button-wrapper-list'> <a class='wh-widget-button button-slide-out' href='http://admin.nguyentinhblog.com' rel='noopener nofollow' target='_blank' title=''> <div class='wh-widget-button-icon wh-messenger-bg-facebook'> <div> <svg class='wh-messenger-svg-facebook wh-svg-icon' viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'> <path d=' M16 6C9.925 6 5 10.56 5 16.185c0 3.205 1.6 6.065 4.1 7.932V28l3.745-2.056c1 .277 2.058.426 3.155.426 6.075 0 11-4.56 11-10.185C27 10.56 22.075 6 16 6zm1.093 13.716l-2.8-2.988-5.467 2.988 6.013-6.383 2.868 2.988 5.398-2.987-6.013 6.383z' fill-rule='evenodd'/> </svg> </div></div><div class='mes-us'>Facebook Messenger</div><div class='clear'/> </a> <a class='wh-widget-button button-slide-out' href='https://zalo.me/0888827074' rel='noopener nofollow' target='_blank' title=''> <div class='wh-widget-button-icon wh-messenger-bg-zalo'> <div> <svg class='wh-messenger-svg-zalo wh-svg-icon' viewBox='0 0 97.4 87.2' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'> <path d='M78.4,42c-1.4,0-2.4,0.6-3.2,1.7c-0.7,1-1,2.2-1,3.7c0,1.5,0.3,2.7,1,3.7c0.8,1.2,1.8,1.7,3.2,1.7 c1.4,0,2.5-0.6,3.2-1.7c0.7-1,1-2.2,1-3.7c0-1.4-0.3-2.6-1-3.6C80.8,42.6,79.7,42,78.4,42z' fill-rule='evenodd'/> <path d='M48.8,0C21.9,0,0,19.5,0,43.6c0,11.9,5.4,22.7,14,30.6c2.2,2-5.4,10.5-9,11.3c10.4,2.9,20.7-3.4,23.2-2.4 c6.2,2.6,13.2,4,20.5,4c26.9,0,48.7-19.5,48.7-43.6C97.5,19.5,75.7,0,48.8,0z M27.8,58.2H14.6c-3.1,0-4.6-1.1-4.6-3.3 c0-1,0.6-2.4,1.8-4l11.8-15.6h-8.5c-3.1,0-4.7-1-4.7-3c0-2,1.6-3,4.7-3h11.2c3.8,0,5.7,1.1,5.7,3.2c0,1-0.6,2.3-1.9,4L18.5,52.2 h9.3c3.1,0,4.7,1,4.7,3C32.5,57.2,30.9,58.2,27.8,58.2z M54.9,53.8c0,3.1-1.1,4.7-3.2,4.7c-1.4,0-2.4-0.7-3.1-2.2 c-1.3,1.6-3.1,2.4-5.4,2.4c-2.9,0-5.3-1.2-7.2-3.5c-1.7-2.2-2.5-4.8-2.5-7.8c0-3,0.9-5.6,2.7-7.8c1.9-2.3,4.3-3.5,7.3-3.5 c2.2,0,3.9,0.8,5.1,2.3c0.7-1.4,1.8-2,3.1-2c2.1,0,3.2,1.5,3.2,4.6V53.8z M64.7,53.8c0,3.1-1.1,4.7-3.2,4.7c-2.1,0-3.2-1.6-3.2-4.7 V31.9c0-3.1,1.1-4.7,3.2-4.7c2.1,0,3.2,1.6,3.2,4.7V53.8z M78.4,58.9c-3.2,0-5.9-1.1-7.9-3.3c-2-2.2-3-4.9-3-8.1s1-6,3-8.1 c2-2.2,4.7-3.3,7.9-3.3c3.3,0,5.9,1.1,7.9,3.3c1.9,2.1,2.9,4.9,2.9,8.1s-1,6-2.9,8.1C84.2,57.8,81.6,58.9,78.4,58.9z' fill-rule='evenodd'/> <path d='M44.4,42.2c-1.3,0-2.4,0.5-3.1,1.6c-0.7,1-1,2.1-1,3.5c0,1.4,0.3,2.6,1,3.6c0.8,1.1,1.8,1.7,3.2,1.7 c1.3,0,2.4-0.6,3.1-1.7c0.6-1,1-2.2,1-3.6c0-1.4-0.3-2.5-1-3.5C46.7,42.8,45.7,42.2,44.4,42.2z' fill-rule='evenodd'/> </svg> </div></div><div class='mes-us'>Zalo Chat</div><div class='clear'/> </a> <a class='wh-widget-button button-slide-out' href='mailto:tuantinh00030@gmail.com' rel='nofollow' title=''> <div class='wh-widget-button-icon wh-messenger-bg-email'> <div> <svg class='wh-messenger-icon wh-messenger-bg-email' viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'> <path d=' M27 22.757c0 1.24-.988 2.243-2.19 2.243H7.19C5.98 25 5 23.994 5 22.757V13.67c0-.556.39-.773.855-.496l8.78 5.238c.782.467 1.95.467 2.73 0l8.78-5.238c.472-.28.855-.063.855.495v9.087z' fill-rule='evenodd'/><path d=' M27 9.243C27 8.006 26.02 7 24.81 7H7.19C5.988 7 5 8.004 5 9.243v.465c0 .554.385 1.232.857 1.514l9.61 5.733c.267.16.8.16 1.067 0l9.61-5.733c.473-.283.856-.96.856-1.514v-.465z' fill-rule='evenodd'/> </svg> </div></div><div class='mes-us'>Gửi Email</div><div class='clear'/> </a> <a class='wh-widget-button wh-widget-button-activator' href='javascript:void(0);'> <div class='wh-widget-button-icon wh-messenger-bg-activator' style='background-color:#129BF4;'> <div> <svg class='wh-messenger-svg-close wh-svg-close' viewBox='-9 -10 41 44' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'> <path d=' M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z' fill-rule='evenodd'/> </svg> <i class='wh-icon-whatshelp wh-svg-icon'/> </div></div><div class='clear'/> </a> </div><div class='clear'/> </div></div>");
+  $('.wh-messenger-bg-activator').on('click', function() {
+    $(this).parent().parent().toggleClass('wh-widget-show-get-button wh-widget-activator-as-close wh-widget-activate');
+    var call_to_action = $(this).parent().parent().parent().find('#wh-call-to-action');
+    var widget_button = $(this).parent().parent().find('.wh-widget-button');
+    if ($(call_to_action).hasClass('wh-animation-in')) {
+      $(call_to_action).removeClass('wh-animation-in').addClass('wh-animation-out wh-hide');
+    } else {
+      $(call_to_action).addClass('wh-animation-in').removeClass('wh-animation-out wh-hide');
+    }
+    if ($(widget_button).not('.wh-widget-button-activator').hasClass('button-slide-out')) {
+      $(widget_button).not('.wh-widget-button-activator').removeClass('button-slide-out').addClass('button-slide');
+    } else {
+      $(widget_button).not('.wh-widget-button-activator').addClass('button-slide-out').removeClass('button-slide');
+    }
+  });
  
 if(data.view.isMobileRequest == "true"){
 /*! delete ?m=1 */
@@ -1188,19 +1279,57 @@ var uri;if((uri=window.location.toString()).indexOf("%3D","%3D")>0){var clean_ur
 }
 
 if(data.view.isPost == "true"){
-/*! box category */
-var postBody=document.querySelector(".post-body"),titleChapter=postBody.querySelectorAll("h2");if(3<=titleChapter.length){var i,leChapteraptor=[];for(i=0;i<titleChapter.length;i++)anchorChapter="chapter-"+(i+1),titleChapter[i].setAttribute("id",anchorChapter),titleChapter[i].setAttribute("title","Lên đầu trang"),leChapteraptor[i]="<li data-target=#"+anchorChapter+">"+titleChapter[i].innerHTML+"</li>";$(".box_category").html('<p>Nội dung chính <label></label></p><ul class="chapter">'+leChapteraptor.join("")+"</ul>")}else $(".box_category").remove();for($(function(){var t=$(".post-body a[name=more]");t?$(".box_category").insertAfter(t):$(".box_category").remove()}),$(".box_category p>label").click(function(){$(this).toggleClass("show"),$(this).parent().parent().find("ul").slideToggle("slow")}),$(".box_category li").bind("click",function(){var t=$(this).attr("data-target");$("html, body").stop().animate({scrollTop:$(t).offset().top-70},"slow")}),k=0;k<titleChapter.length;k++)titleChapter[k].addEventListener("click",function(){$("html, body").stop().animate({scrollTop:$(".box_category").position().top},"slow")});
+    $('.post-nav').each(function() {
+        var getLinkOlderPost = $('a.blog-pager-older-link').attr('href'),
+            getLinkNewerPost = $('a.blog-pager-newer-link').attr('href');
+        $.ajax({
+          url: getLinkOlderPost,
+          type: 'get',
+          success: function(data) {
+            var getTitle = $(data).find('.blog-post h1.entry-title').text();
+            $('.post-older a .post-nav-inner p').text(getTitle)
+          }
+        });
+        $.ajax({
+          url: getLinkNewerPost,
+          type: 'get',
+          success: function(data) {
+            var getTitle = $(data).find('.blog-post h1.entry-title').text();
+            $('.post-newer a .post-nav-inner p').text(getTitle)
+          }
+        })
+      });
 
+$('.collapsible-item--title').click(function (e) {
+    $(this).toggleClass('active').siblings('.collapsible-item--content').slideToggle(500);
+    $(this).parent().siblings().children('.collapsible-item--title').removeClass('active');
+    $(this).parent().siblings().children('.collapsible-item--content').slideUp(500);
+})
 /*! post views */
 $(function(){jQuery.getScript("https://cdn.firebase.com/js/client/2.3.2/firebase.js").done(function(){$.each($(".post-views"),function(t,a){var e=$(a).find("#postviews"),i=$('link[rel="canonical"]').attr("href"),n=new Firebase("https://nguyen-tinh.firebaseio.com/pages/id/"+$(a).attr("data-id"));n.once("value",function(t){var r=t.val(),l=!1;null==r&&((r={}).value=0,r.url=$(a).attr("data-href"),r.id=$(a).attr("data-id"),l=!0),e.text(r.value),r.value++,"/"!=window.location.pathname&&$(a).attr("data-href")==i&&(l?n.set(r):n.child("value").set(r.value))})})})});
 }
 
 if(data.view.isSingleItem == "true"){
+/*! description */
+var content = document.getElementById('descriptions-cont');
+$(content).css("max-height", "150px");
+$(".descriptions-title span").click(function() {
+    $(".descriptions-title,.mask-descriptions").toggleClass("hidden");
+    if (content.style.maxHeight == '150px') {
+        content.style.maxHeight = content.scrollHeight + 'px'
+    } else {
+        content.style.maxHeight = '150px'
+    }
+});
+
+/*! box category */
+var postBody=document.querySelector(".post-body"),titleChapter=postBody.querySelectorAll("h2");if(3<=titleChapter.length){var i,leChapteraptor=[];for(i=0;i<titleChapter.length;i++)anchorChapter="chapter-"+(i+1),titleChapter[i].setAttribute("id",anchorChapter),titleChapter[i].setAttribute("title","Lên đầu trang"),leChapteraptor[i]="<li data-target=#"+anchorChapter+">"+titleChapter[i].innerHTML+"</li>";$(".box_category").html('<p>Nội dung chính <label></label></p><ul class="chapter">'+leChapteraptor.join("")+"</ul>")}else $(".box_category").remove();for($(function(){var t=$(".post-body a[name=more]");t?$(".box_category").insertAfter(t):$(".box_category").remove()}),$(".box_category p>label").click(function(){$(this).toggleClass("show"),$(this).parent().parent().find("ul").slideToggle("slow")}),$(".box_category li").bind("click",function(){var t=$(this).attr("data-target");$("html, body").stop().animate({scrollTop:$(t).offset().top-70},"slow")}),k=0;k<titleChapter.length;k++)titleChapter[k].addEventListener("click",function(){$("html, body").stop().animate({scrollTop:$(".box_category").position().top},"slow")});
+
 /*! timeago */
 !function(t){"function"==typeof define&&define.amd?define(["jquery"],t):"object"==typeof module&&"object"==typeof module.exports?t(require("jquery")):t(jQuery)}(function(t){t.timeago=function(e){return e instanceof Date?r(e):r("string"==typeof e?t.timeago.parse(e):"number"==typeof e?new Date(e):t.timeago.datetime(e))};var e=t.timeago;t.extend(t.timeago,{settings:{refreshMillis:6e4,allowPast:!0,allowFuture:!1,localeTitle:!1,cutoff:0,autoDispose:!0,strings:{prefixAgo:null,prefixFromNow:null,suffixAgo:null,suffixFromNow:null,inPast:"vừa xong",seconds:"vừa xong",minute:"1 phút trước",minutes:"%d phút trước",hour:"1 giờ trước",hours:"%d giờ trước",day:"1 ngày trước",days:"%d ngày trước",month:"1 tháng trước",months:"%d tháng trước",year:"1 năm trước",years:"%d năm trước",wordSeparator:" ",numbers:[]}},inWords:function(e){if(!this.settings.allowPast&&!this.settings.allowFuture)throw"timeago allowPast and allowFuture settings can not both be set to false.";var i=this.settings.strings,a=i.prefixAgo,r=i.suffixAgo;if(this.settings.allowFuture&&e<0&&(a=i.prefixFromNow,r=i.suffixFromNow),!this.settings.allowPast&&e>=0)return this.settings.strings.inPast;var n=Math.abs(e)/1e3,o=n/60,s=o/60,u=s/24,l=u/365;function m(a,r){var n=t.isFunction(a)?a(r,e):a,o=i.numbers&&i.numbers[r]||r;return n.replace(/%d/i,o)}var c=n<45&&m(i.seconds,Math.round(n))||n<90&&m(i.minute,1)||o<45&&m(i.minutes,Math.round(o))||o<90&&m(i.hour,1)||s<24&&m(i.hours,Math.round(s))||s<42&&m(i.day,1)||u<30&&m(i.days,Math.round(u))||u<45&&m(i.month,1)||u<365&&m(i.months,Math.round(u/30))||l<1.5&&m(i.year,1)||m(i.years,Math.round(l)),d=i.wordSeparator||"";return void 0===i.wordSeparator&&(d=" "),t.trim([a,c,r].join(d))},parse:function(e){var i=t.trim(e);return i=(i=(i=(i=(i=i.replace(/\.\d+/,"")).replace(/-/,"/").replace(/-/,"/")).replace(/T/," ").replace(/Z/," UTC")).replace(/([\+\-]\d\d)\:?(\d\d)/," $1$2")).replace(/([\+\-]\d\d)$/," $100"),new Date(i)},datetime:function(i){var a=e.isTime(i)?t(i).attr("datetime"):t(i).attr("title");return e.parse(a)},isTime:function(e){return"time"===t(e).get(0).tagName.toLowerCase()}});var i={init:function(){i.dispose.call(this);var r=t.proxy(a,this);r();var n=e.settings;n.refreshMillis>0&&(this._timeagoInterval=setInterval(r,n.refreshMillis))},update:function(i){var r=i instanceof Date?i:e.parse(i);t(this).data("timeago",{datetime:r}),e.settings.localeTitle&&t(this).attr("title",r.toLocaleString()),a.apply(this)},updateFromDOM:function(){t(this).data("timeago",{datetime:e.parse(e.isTime(this)?t(this).attr("datetime"):t(this).attr("title"))}),a.apply(this)},dispose:function(){this._timeagoInterval&&(window.clearInterval(this._timeagoInterval),this._timeagoInterval=null)}};function a(){var i=e.settings;if(i.autoDispose&&!t.contains(document.documentElement,this))return t(this).timeago("dispose"),this;var a=function(i){if(!(i=t(i)).data("timeago")){i.data("timeago",{datetime:e.datetime(i)});var a=t.trim(i.text());e.settings.localeTitle?i.attr("title",i.data("timeago").datetime.toLocaleString()):!(a.length>0)||e.isTime(i)&&i.attr("title")||i.attr("title",a)}return i.data("timeago")}(this);return isNaN(a.datetime)||(0===i.cutoff||Math.abs(n(a.datetime))<i.cutoff?t(this).text(r(a.datetime)):t(this).attr("title").length>0&&t(this).text(t(this).attr("title"))),this}function r(t){return e.inWords(n(t))}function n(t){return(new Date).getTime()-t.getTime()}t.fn.timeago=function(t,e){var a=t?i[t]:i.init;if(!a)throw new Error("Unknown function name '"+t+"' for timeago");return this.each(function(){a.call(this,e)}),this},document.createElement("abbr"),document.createElement("time")}),$(".date-time a").each(function(){var t=$(this),e=(e=(e=t.html()).replace("SA","AM")).replace("CH","PM");t.attr("datetime",e),t.html(jQuery.timeago(e))});
 
 /*! lazy load */
-!function(e){e.fn.lazyload=function(t){var o={threshold:0,failurelimit:0,event:"scroll",effect:"show",container:window};t&&e.extend(o,t);var n=this;return"scroll"==o.event&&e(o.container).bind("scroll",function(t){var i=0;n.each(function(){if(e.abovethetop(this,o)||e.leftofbegin(this,o));else if(e.belowthefold(this,o)||e.rightoffold(this,o)){if(i++>o.failurelimit)return!1}else e(this).trigger("appear")});var r=e.grep(n,function(e){return!e.loaded});n=e(r)}),this.each(function(){var t=this;null==e(t).attr("original")&&e(t).attr("original",e(t).attr("src")),"scroll"!=o.event||null==e(t).attr("src")||o.placeholder==e(t).attr("src")||e.abovethetop(t,o)||e.leftofbegin(t,o)||e.belowthefold(t,o)||e.rightoffold(t,o)?(o.placeholder?e(t).attr("src",o.placeholder):e(t).removeAttr("src"),t.loaded=!1):t.loaded=!0,e(t).one("appear",function(){this.loaded||e("<img />").bind("load",function(){e(t).hide().attr("src",e(t).attr("original"))[o.effect](o.effectspeed),t.loaded=!0}).attr("src",e(t).attr("original"))}),"scroll"!=o.event&&e(t).bind(o.event,function(o){t.loaded||e(t).trigger("appear")})}),e(o.container).trigger(o.event),this},e.belowthefold=function(t,o){if(void 0===o.container||o.container===window)var n=e(window).height()+e(window).scrollTop();else n=e(o.container).offset().top+e(o.container).height();return n<=e(t).offset().top-o.threshold},e.rightoffold=function(t,o){if(void 0===o.container||o.container===window)var n=e(window).width()+e(window).scrollLeft();else n=e(o.container).offset().left+e(o.container).width();return n<=e(t).offset().left-o.threshold},e.abovethetop=function(t,o){if(void 0===o.container||o.container===window)var n=e(window).scrollTop();else n=e(o.container).offset().top;return n>=e(t).offset().top+o.threshold+e(t).height()},e.leftofbegin=function(t,o){if(void 0===o.container||o.container===window)var n=e(window).scrollLeft();else n=e(o.container).offset().left;return n>=e(t).offset().left+o.threshold+e(t).width()},e.extend(e.expr[":"],{"below-the-fold":"$.belowthefold(a, {threshold : 0, container: window})","above-the-fold":"!$.belowthefold(a, {threshold : 0, container: window})","right-of-fold":"$.rightoffold(a, {threshold : 0, container: window})","left-of-fold":"!$.rightoffold(a, {threshold : 0, container: window})"})}(jQuery),$(function(){$(".separator img,.tr-caption-container img").lazyload({placeholder:"//1.bp.blogspot.com/-Qg5bi1ZtDdM/VZ5nHAyYBqI/AAAAAAAAChE/exGnasO4oyk/s640/arlinadesign.gif",effect:"fadeIn",threshold:"-50"})});
+!function(e){e.fn.lazyload=function(t){var o={threshold:0,failurelimit:0,event:"scroll",effect:"show",container:window};t&&e.extend(o,t);var n=this;return"scroll"==o.event&&e(o.container).bind("scroll",function(t){var i=0;n.each(function(){if(e.abovethetop(this,o)||e.leftofbegin(this,o));else if(e.belowthefold(this,o)||e.rightoffold(this,o)){if(i++>o.failurelimit)return!1}else e(this).trigger("appear")});var r=e.grep(n,function(e){return!e.loaded});n=e(r)}),this.each(function(){var t=this;null==e(t).attr("original")&&e(t).attr("original",e(t).attr("src")),"scroll"!=o.event||null==e(t).attr("src")||o.placeholder==e(t).attr("src")||e.abovethetop(t,o)||e.leftofbegin(t,o)||e.belowthefold(t,o)||e.rightoffold(t,o)?(o.placeholder?e(t).attr("src",o.placeholder):e(t).removeAttr("src"),t.loaded=!1):t.loaded=!0,e(t).one("appear",function(){this.loaded||e("<img />").bind("load",function(){e(t).hide().attr("src",e(t).attr("original"))[o.effect](o.effectspeed),t.loaded=!0}).attr("src",e(t).attr("original"))}),"scroll"!=o.event&&e(t).bind(o.event,function(o){t.loaded||e(t).trigger("appear")})}),e(o.container).trigger(o.event),this},e.belowthefold=function(t,o){if(void 0===o.container||o.container===window)var n=e(window).height()+e(window).scrollTop();else n=e(o.container).offset().top+e(o.container).height();return n<=e(t).offset().top-o.threshold},e.rightoffold=function(t,o){if(void 0===o.container||o.container===window)var n=e(window).width()+e(window).scrollLeft();else n=e(o.container).offset().left+e(o.container).width();return n<=e(t).offset().left-o.threshold},e.abovethetop=function(t,o){if(void 0===o.container||o.container===window)var n=e(window).scrollTop();else n=e(o.container).offset().top;return n>=e(t).offset().top+o.threshold+e(t).height()},e.leftofbegin=function(t,o){if(void 0===o.container||o.container===window)var n=e(window).scrollLeft();else n=e(o.container).offset().left;return n>=e(t).offset().left+o.threshold+e(t).width()},e.extend(e.expr[":"],{"below-the-fold":"$.belowthefold(a, {threshold : 0, container: window})","above-the-fold":"!$.belowthefold(a, {threshold : 0, container: window})","right-of-fold":"$.rightoffold(a, {threshold : 0, container: window})","left-of-fold":"!$.rightoffold(a, {threshold : 0, container: window})"})}(jQuery),$(function(){$(".separator img,.tr-caption-container img,.post-body img").lazyload({placeholder:"//1.bp.blogspot.com/-Qg5bi1ZtDdM/VZ5nHAyYBqI/AAAAAAAAChE/exGnasO4oyk/s640/arlinadesign.gif",effect:"fadeIn",threshold:"-50"})});
 }
 
 /*! adblock */
