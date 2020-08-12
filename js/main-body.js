@@ -1000,15 +1000,7 @@ function ajaxBlock($this, type, num, label, text) {
 function ajaxWidget($this, type, num, label, text) {
     if (text.match('getwidget')) {
         if (type == 'list') {
-            var ajaxWidget_scroll = false
-            $(window).on('scroll', function () {
-                if ($(this).scrollTop() != 0) {
-                    if (!ajaxWidget_scroll) {
-                        ajaxWidget_scroll = true
-                        return getAjax($this, type, num, label)
-                    }
-                }
-            })
+            return getAjax($this, type, num, label)
         } else {
             $this.html(msgError())
         }
@@ -1017,15 +1009,7 @@ function ajaxWidget($this, type, num, label, text) {
 
 function ajaxRelated($this, type, num, label, text) {
     if (text.match('getrelated')) {
-        var ajaxRelated_scroll = false
-        $(window).on('scroll', function () {
-            if ($(this).scrollTop() != 0) {
-                if (!ajaxRelated_scroll) {
-                    ajaxRelated_scroll = true
-                    return getAjax($this, type, num, label)
-                }
-            }
-        })
+        return getAjax($this, type, num, label)
     }
 }
 $('.comments-title h3.title').each(function() {
