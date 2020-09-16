@@ -209,6 +209,9 @@ $('.post-body blockquote').each(function() {
     if (type.match('colorbox-danger')) {
         $this.replaceWith('<div class="colorbox colorbox-danger short-b">' + html + '</div>')
     }
+    if (type.match('descriptions')) {
+            $this.replaceWith('<div id="descriptions"> <div class="descriptions-item1"><div class="descriptions-cont short-b" id="descriptions-cont">'+ html +'</div><div class="mask-descriptions"></div></div><div class="descriptions-item2"> <div class="descriptions-title"><span>Đọc thêm</span></div><div class="descriptions-title hidden"><span>Thu gọn</span></div></div></div>')
+    }
     if (type.match('code-css')) {
         $this.replaceWith('<pre class="css short-b">' + html + '</pre>')
     }
@@ -250,7 +253,7 @@ $('.post-body blockquote').each(function() {
     $sb.each(function() {
         var $b = $(this),
             $t = $b.text().trim();
-        if ($t.match('slider-img') || $t.match('colorbox-success') || $t.match('colorbox-info') || $t.match('colorbox-warning') || $t.match('colorbox-danger') || $t.match('code-css') || $t.match('code-js') || $t.match('code-xml') || $t.match('code-php') || $t.match('code-scss')) {
+        if ($t.match('descriptions') || $t.match('slider-img') || $t.match('colorbox-success') || $t.match('colorbox-info') || $t.match('colorbox-warning') || $t.match('colorbox-danger') || $t.match('code-css') || $t.match('code-js') || $t.match('code-xml') || $t.match('code-php') || $t.match('code-scss')) {
             $b.replaceWith("")
         }
     })
