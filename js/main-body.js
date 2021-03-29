@@ -25,36 +25,38 @@ var Shortcode=function(e,t){e&&(this.el=e,this.tags=t,this.matches=[],this.regex
 function auto(){document.body.classList.add('auto');if(new Date().getHours()>21||new Date().getHours()<6){document.body.classList.add('dark');localStorage.setItem('636724dark','true')}else{document.body.classList.remove('dark');localStorage.setItem('636724dark','false')}}function dark(){localStorage.getItem('636724dark')=='true'?document.body.classList.add('dark'):document.body.classList.remove('dark')}if(localStorage.getItem('636724auto')=='true'){auto()}else{localStorage.getItem('636724dark')==null?auto():dark()}function toggle(){localStorage.setItem('636724auto',localStorage.getItem('636724auto')=='true'?'false':'true');localStorage.getItem('636724auto')=='true'?auto():document.body.classList.remove('auto')}function mode(){document.body.classList.remove('auto');localStorage.removeItem('636724auto');localStorage.setItem('636724dark',localStorage.getItem('636724dark')=='true'?'false':'true');dark()};
 
 ! function(a) {
-    a.fn.lazyify = function() {
-        return this.each(function() {
-            var t = a(this),
-                dImg = t.attr('data-image'),
-                iWid = Math.round(t.width()),
-                iHei = Math.round(t.height()),
-                iSiz = '/w' + iWid + '-h' + iHei + '-p-k-no-nu',
-                img = '';
-            if (dImg.match('s72-c')) {
-                img = dImg.replace('/s72-c', iSiz)
-            } else if (dImg.match('w72-h')) {
-                img = dImg.replace('/w72-h72-p-k-no-nu', iSiz)
-            } else {
-                img = dImg
-            }
-            a(window).on('resize scroll', lazyOnScroll);
-            function lazyOnScroll() {
-                var wHeight = a(window).height(),
-                    scrTop = a(window).scrollTop(),
-                    offTop = t.offset().top;
-                if (scrTop + wHeight > offTop) {
-                    var n = new Image();
-                    n.onload = function() {
-                        t.attr('style', 'background-image:url(' + this.src + ')').addClass('lazy-ify')
-                    }, n.src = img
-                }
-            }
-            lazyOnScroll()
-        })
-    }
+  a.fn.lazyify = function() {
+      return this.each(function() {
+          var t = a(this),
+              dImg = t.attr('data-image'),
+              iWid = Math.round(t.width()),
+              iHei = Math.round(t.height()),
+              iSiz = 'w' + iWid + '-h' + iHei + '-p-k-no-nu',
+              img = '';
+          if (dImg.match('/s72-c')) {
+              img = dImg.replace('/s72-c', '/' + iSiz);
+          } else if (dImg.match('/w72-h')) {
+              img = dImg.replace('/w72-h72-p-k-no-nu', '/' + iSiz);
+          } else if (dImg.match('=w72-h')) {
+              img = dImg.replace('=w72-h72-p-k-no-nu', '=' + iSiz);
+          } else {
+              img = dImg;
+          }
+          a(window).on('load resize scroll', lazyOnScroll);
+          function lazyOnScroll() {
+              var wHeight = a(window).height(),
+                  scrTop = a(window).scrollTop(),
+                  offTop = t.offset().top;
+              if (scrTop + wHeight > offTop) {
+                  var n = new Image();
+                  n.onload = function() {
+                      t.attr('style', 'background-image:url(' + this.src + ')').addClass('lazy-ify');
+                  }, n.src = img;
+              }
+          }
+          lazyOnScroll();
+      });
+  }
 }(jQuery);
 $('#startinhitnews-main-menu').menuify();
 $('#startinhitnews-main-menu .widget').addClass('show-menu');
@@ -475,23 +477,23 @@ function beforeLoader() {
 }
 
 function getFeedUrl(type, num, label) {
-    var furl = '';
-    switch (label) {
-        case 'recent':
-            furl = '/feeds/posts/summary?alt=json&max-results=' + num;
-            break;
-        case 'comments':
-            if (type == 'list') {
-                furl = '/feeds/comments/summary?alt=json&max-results=' + num
-            } else {
-                furl = '/feeds/posts/summary/-/' + label + '?alt=json&max-results=' + num
-            }
-            break;
-        default:
-            furl = '/feeds/posts/summary/-/' + label + '?alt=json&max-results=' + num;
-            break
-    }
-    return furl
+  var furl = '';
+  switch (label) {
+      case 'recent':
+          furl = '/feeds/posts/default?alt=json&max-results=' + num;
+          break;
+      case 'comments':
+          if (type == 'list') {
+              furl = '/feeds/comments/default?alt=json&max-results=' + num
+          } else {
+              furl = '/feeds/posts/default/-/' + label + '?alt=json&max-results=' + num
+          }
+          break;
+      default:
+          furl = '/feeds/posts/default/-/' + label + '?alt=json&max-results=' + num;
+          break
+  }
+  return furl
 }
 
 function getPostLink(feed, i) {
@@ -507,40 +509,13 @@ function getPostTitle(feed, i) {
     return n
 }
 
-function getFirstImage($c, img) {
-  var $h = $('<div>').html($c),
-      $t = $h.find('img:first').attr('src'),
-      $a = $t.lastIndexOf('/') || 0,
-      $b = $t.lastIndexOf('/', $a - 1) || 0,
-      $p0 = $t.substring(0, $b),
-      $p1 = $t.substring($b, $a),
-      $p2 = $t.substring($a);
-  if ($p1.match(/\/s[0-9]+/g) || $p1.match(/\/w[0-9]+/g) || $p1 == '/d') {
-      $p1 = '/w72-h72-p-k-no-nu'
-  }
-  img = $p0 + $p1 + $p2;
-  return img
-}
-
-function getPostImage(feed, i, img) {
-  var $c = feed[i].content.$t;
-  if (feed[i].media$thumbnail) {
-      var src = feed[i].media$thumbnail.url
-  } else {
-      src = 'https://4.bp.blogspot.com/-eALXtf-Ljts/WrQYAbzcPUI/AAAAAAAABjY/vptx-N2H46oFbiCqbSe2JgVSlHhyl0MwQCK4BGAYYCw/s72-c/nth-ify.png'
-  }
-  if ($c.indexOf($c.match(/<iframe(?:.+)?src=(?:.+)?(?:www.youtube.com)/g)) > -1) {
-      if ($c.indexOf('<img') > -1) {
-          if ($c.indexOf($c.match(/<iframe(?:.+)?src=(?:.+)?(?:www.youtube.com)/g)) < $c.indexOf('<img')) {
-              img = src.replace('/default.', '/0.')
-          } else {
-              img = getFirstImage($c)
-          }
-      } else {
-          img = src.replace('/default.', '/0.')
+function getPostImage(feed, i) {
+  if ('media$thumbnail' in feed[i]) {
+      var src = feed[i].media$thumbnail.url;
+      if (src.match('img.youtube.com')) {
+          src = src.replace('/default.', '/0.')
       }
-  } else if ($c.indexOf('<img') > -1) {
-      img = getFirstImage($c)
+      var img = src
   } else {
       img = 'https://4.bp.blogspot.com/-eALXtf-Ljts/WrQYAbzcPUI/AAAAAAAABjY/vptx-N2H46oFbiCqbSe2JgVSlHhyl0MwQCK4BGAYYCw/s72-c/nth-ify.png'
   }
