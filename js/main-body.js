@@ -507,17 +507,44 @@ function getPostTitle(feed, i) {
     return n
 }
 
-function getPostImage(feed, i) {
-    if ('media$thumbnail' in feed[i]) {
-        var src = feed[i].media$thumbnail.url;
-        if (src.match('img.youtube.com')) {
-            src = src.replace('/default.', '/0.')
-        }
-        var img = src
-    } else {
-        img = 'https://4.bp.blogspot.com/-eALXtf-Ljts/WrQYAbzcPUI/AAAAAAAABjY/vptx-N2H46oFbiCqbSe2JgVSlHhyl0MwQCK4BGAYYCw/s72-c/nth-ify.png'
-    }
-    return img
+function getFirstImage($c, img) {
+  var $h = $('<div>').html($c),
+      $t = $h.find('img:first').attr('src'),
+      $a = $t.lastIndexOf('/') || 0,
+      $b = $t.lastIndexOf('/', $a - 1) || 0,
+      $p0 = $t.substring(0, $b),
+      $p1 = $t.substring($b, $a),
+      $p2 = $t.substring($a);
+  if ($p1.match(/\/s[0-9]+/g) || $p1.match(/\/w[0-9]+/g) || $p1 == '/d') {
+      $p1 = '/w72-h72-p-k-no-nu'
+  }
+  img = $p0 + $p1 + $p2;
+  return img
+}
+
+function getPostImage(feed, i, img) {
+  var $c = feed[i].content.$t;
+  if (feed[i].media$thumbnail) {
+      var src = feed[i].media$thumbnail.url
+  } else {
+      src = 'https://4.bp.blogspot.com/-eALXtf-Ljts/WrQYAbzcPUI/AAAAAAAABjY/vptx-N2H46oFbiCqbSe2JgVSlHhyl0MwQCK4BGAYYCw/s72-c/nth-ify.png'
+  }
+  if ($c.indexOf($c.match(/<iframe(?:.+)?src=(?:.+)?(?:www.youtube.com)/g)) > -1) {
+      if ($c.indexOf('<img') > -1) {
+          if ($c.indexOf($c.match(/<iframe(?:.+)?src=(?:.+)?(?:www.youtube.com)/g)) < $c.indexOf('<img')) {
+              img = src.replace('/default.', '/0.')
+          } else {
+              img = getFirstImage($c)
+          }
+      } else {
+          img = src.replace('/default.', '/0.')
+      }
+  } else if ($c.indexOf('<img') > -1) {
+      img = getFirstImage($c)
+  } else {
+      img = 'https://4.bp.blogspot.com/-eALXtf-Ljts/WrQYAbzcPUI/AAAAAAAABjY/vptx-N2H46oFbiCqbSe2JgVSlHhyl0MwQCK4BGAYYCw/s72-c/nth-ify.png'
+  }
+  return img
 }
 
 function getPostAuthor(feed, i) {
@@ -578,10 +605,10 @@ function getNumberComments(feed, i) {
 
 function getPostComments(feed, i, link) {
     var n = feed[i].author[0].name.$t,
-        e = feed[i].author[0].gd$image.src.replace('/s113', '/w72-h72-p-k-no-nu'),
+        e = feed[i].author[0].gd$image.src.replace('/s113', '/w55-h55-p-k-no-nu'),
         h = feed[i].title.$t;
     if (e.match('//img1.blogblog.com/img/blank.gif')) {
-        var img = '//4.bp.blogspot.com/-oSjP8F09qxo/Wy1J9dp7b0I/AAAAAAAACF0/ggcRfLCFQ9s2SSaeL9BFSE2wyTYzQaTyQCK4BGAYYCw/w72-h72-p-k-no-nu/avatar.jpg'
+        var img = '//4.bp.blogspot.com/-oSjP8F09qxo/Wy1J9dp7b0I/AAAAAAAACF0/ggcRfLCFQ9s2SSaeL9BFSE2wyTYzQaTyQCK4BGAYYCw/w55-h55-p-k-no-nu/avatar.jpg'
     } else {
         var img = e
     }
@@ -809,14 +836,14 @@ function getAjax($this, type, num, label) {
                                     break;
                                 case 'list':
                                     switch (label) {
-                                        case 'comments':
-                                            var code = getPostComments(feed, i, link);
-                                            content += code;
-                                            break;
-                                        default:
-                                            content += '<article class="custom-item item-' + i + '"><a class="entry-image-link" href="' + link + '"><span class="entry-thumb" data-image="' + image + '"/></a><div class="entry-header"><h2 class="entry-title"><a href="' + link + '">' + title + '</a></h2><div class="entry-meta">' + date[1] + '</div></div></article>';
-                                            break
-                                    }
+                                      case 'comments':
+                                          var code = getPostComments(feed, i, link);
+                                          content += code;
+                                          break;
+                                      default:
+                                          content += '<article class="custom-item item-' + i + '"><a class="entry-image-link" href="' + link + '"><span class="entry-thumb" data-image="' + image + '"/></a><div class="entry-header"><h2 class="entry-title"><a href="' + link + '">' + title + '</a></h2><div class="entry-meta">' + date[1] + '</div></div></article>';
+                                          break
+                                      }
                                     break;
                                 case 'related':
                                     content += '<article class="related-item item-' + i + '"><div class="related-item-inner"><div class="entry-image"><a class="entry-image-link" href="' + link + '"><span class="entry-thumb" data-image="' + image + '"/></a></div><h2 class="entry-title"><a href="' + link + '">' + title + '</a></h2><div class="entry-meta">' + date[1] + '</div></div></article>';
@@ -953,15 +980,15 @@ function ajaxMega($this, type, num, label, text) {
     }
 }
 
-function ajaxBreaking($this, type, num, label, text) {
-    if (text.match('getbreaking')) {
-        if (type == 'breaking') {
-            return getAjax($this, type, num, label)
-        } else {
-            $this.html(msgError()).parent().addClass('show-ify')
-        }
-    }
-}
+  function ajaxBreaking($this, type, num, label, text) {
+      if (text.match('getbreaking')) {
+          if (type == 'breaking') {
+              return getAjax($this, type, num, label)
+          } else {
+              $this.html(msgError()).parent().addClass('show-ify')
+          }
+      }
+  }
 
 function ajaxFeatured($this, type, num, label, text) {
     if (text.match('getfeatured')) {
@@ -1017,24 +1044,24 @@ function ajaxRelated($this, type, num, label, text) {
         return getAjax($this, type, num, label)
     }
 }
-$('.comments-title h3.title').each(function() {
-    var $t = $(this),
-        $tx = $t.text().trim(),
-        $c = $t.attr('count').trim(),
-        $m = $t.attr('message').trim(),
-        $sp = $tx.split('/'),
-        $r = '';
-    if ($c == 0) {
-        $r = $sp[1]
-    } else {
-        if ($sp[2] == undefined) {
-            $r = $sp[0] + ' ' + $m
-        } else {
-            $r = $sp[0] + ' ' + $sp[2]
-        }
-    }
-    $t.text($r)
-});
+  $('.comments-title h3.title').each(function() {
+      var $t = $(this),
+          $tx = $t.text().trim(),
+          $c = $t.attr('count').trim(),
+          $m = $t.attr('message').trim(),
+          $sp = $tx.split('/'),
+          $r = '';
+      if ($c == 0) {
+          $r = $sp[1]
+      } else {
+          if ($sp[2] == undefined) {
+              $r = $sp[0] + ' ' + $m
+          } else {
+              $r = $sp[0] + ' ' + $sp[2]
+          }
+      }
+      $t.text($r)
+  });
 $('.startinhitnews-blog-post-comments').each(function() {
     var $this = $(this),
         system = commentsSystem,
@@ -1276,10 +1303,17 @@ $(function(){jQuery.getScript("https://cdn.firebase.com/js/client/2.3.2/firebase
 }
 
 if(data.view.isSingleItem == "true"){
+  $('#post-body iframe').each(function() {
+    var $t = $(this),
+        $mtc = $t.attr('src');
+    if ($mtc.match('www.youtube.com')) {
+        $t.wrap('<div class="responsive-video-wrap"/>')
+    }
+});
 $('span.comment-content').each(function() {
     var $t = $(this);
     $t.replaceText(/(https:\/\/\S+(\.png|\.jpeg|\.jpg|\.gif))/g, '<img src="$1"/>');
-    $t.replaceText(/(?:https:\/\/)?(?:www\.)?(?:youtube\.com)\/(?:watch\?v=)?(.+)/g, '<iframe id="youtube" width="100%" height="330" src="https://www.youtube.com/embed/$1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>')
+    $t.replaceText(/(?:https:\/\/)?(?:www\.)?(?:youtube\.com)\/(?:watch\?v=)?(.+)/g, '<div class="responsive-video-wrap"><iframe id="youtube" width="100%" height="358" src="https://www.youtube.com/embed/$1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>')
 });
 
 /*! description */
